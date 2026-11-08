@@ -1,0 +1,400 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:animations/animations.dart';
+import 'package:dynamic_color/dynamic_color.dart';
+import 'package:fl_clash/common/theme.dart';
+import 'package:fl_clash/widgets/dialog.dart';
+import 'package:fl_clash/widgets/list.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_color_utilities/palettes/core_palette.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'common/common.dart';
+import 'database/database.dart';
+import 'enum/enum.dart';
+import 'l10n/l10n.dart';
+import 'models/models.dart';
+import 'providers/providers.dart';
+
+class GlobalState {
+  static GlobalState? _instance;
+  final navigatorKey = GlobalKey<NavigatorState>();
+  bool isPre = true;
+  late final String coreSHA256;
+  late final PackageInfo packageInfo;
+  late final String appVersion;
+  Function? updateCurrentDelayDebounce;
+  late Measure measure;
+  late CommonTheme theme;
+  late Color accentColor;
+  late ProviderContainer container;
+  bool needInitStatus = true;
+
+  // ignore: deprecated_member_use
+  CorePalette? corePalette;
+  String? lastConfigMd5;
+  VpnState? lastVpnState;
+  bool isAttach = false;
+
+  GlobalState._internal();
+
+  factory GlobalState() {
+    _instance ??= GlobalState._internal();
+    return _instance!;
+  }
+
+  Future<ProviderContainer> init(int version) async {
+    coreSHA256 = const String.fromEnvironment('CORE_SHA256');
+    isPre = const String.fromEnvironment('APP_ENV') != 'stable';
+    await _initDynamicColor();
+    return _initData(version);
+  }
+
+  Future<void> _initDynamicColor() async {
+    try {
+      corePalette = await DynamicColorPlugin.getCorePalette();
+      accentColor =
+          await DynamicColorPlugin.getAccentColor() ??
+          const Color(defaultPrimaryColor);
+    } catch (_) {}
+  }
+
+  String get ua => container
+      .read(patchClashConfigProvider.select((state) => state.globalUa))
+      .takeFirstValid([packageInfo.ua]);
+
+  BuildContext get _context => navigatorKey.currentContext!;
+
+  Future<ProviderContainer> _initData(int version) async {
+    final appState = AppState(
+      brightness: WidgetsBinding.instance.platformDispatcher.platformBrightness,
+      version: version,
+      viewSize: Size.zero,
+      requests: FixedList(maxLength),
+      logs: FixedList(maxLength),
+      traffics: FixedList(30),
+      totalTraffic: const Traffic(),
+      systemUiOverlayStyle: const SystemUiOverlayStyle(),
+    );
+    final appStateOverrides = buildAppStateOverrides(appState);
+    packageInfo = await PackageInfo.fromPlatform();
+    appVersion = utils.resolveAppVersion(
+      embeddedVersion: const String.fromEnvironment('APP_VERSION'),
+      packageVersion: packageInfo.version,
+    );
+    final configMap = await preferences.getConfigMap();
+    final migratedConfig = await migration.migrationIfNeeded(
+      configMap,
+      sync: (data) async {
+        final newConfigMap = data.configMap;
+        final config = Config.realFromJson(newConfigMap);
+        await Future.wait([
+          database.restore(
+            data.profiles,
+            data.scripts,
+            data.rules,
+            data.links,
+            data.proxyGroups,
+          ),
+          preferences.saveConfig(config),
+        ]);
+        return config;
+      },
+    );
+    final appSettingProps = migratedConfig.appSettingProps;
+    final updateChannel = utils.effectiveUpdateChannel(
+      appSettingProps.updateChannel,
+      appVersion,
+      explicitlySelected: appSettingProps.updateChannelExplicit,
+    );
+    final config = migratedConfig.copyWith(
+      appSettingProps: appSettingProps.copyWith(updateChannel: updateChannel),
+    );
+    final configOverrides = buildConfigOverrides(config);
+    container = ProviderContainer(
+      overrides: [...appStateOverrides, ...configOverrides],
+    );
+    final profiles = await database.profilesDao.query().get();
+    container.read(profilesProvider.notifier).setAndReorder(profiles);
+    await AppLocalizations.load(
+      utils.getLocaleForString(config.appSettingProps.locale) ??
+          WidgetsBinding.instance.platformDispatcher.locale,
+    );
+    await window?.init(version, config.windowProps);
+    if (system.isAndroid) {
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
+    return container;
+  }
+
+  Future<T?> loadingRun<T>(
+    FutureOr<T> Function() futureFunction, {
+    String? title,
+    required LoadingTag? tag,
+    bool silence = false,
+  }) async {
+    return globalState.safeRun(
+      futureFunction,
+      silence: silence,
+      title: title,
+      onStart: () {
+        if (tag != null) {
+          container.read(loadingProvider(tag).notifier).start();
+        }
+      },
+      onEnd: () {
+        if (tag != null) {
+          container.read(loadingProvider(tag).notifier).stop();
+        }
+      },
+    );
+  }
+
+  Future<T?> safeRun<T>(
+    FutureOr<T> Function() futureFunction, {
+    String? title,
+    VoidCallback? onStart,
+    VoidCallback? onEnd,
+    bool silence = true,
+  }) async {
+    try {
+      onStart?.call();
+      return await futureFunction();
+    } catch (e, s) {
+      commonPrint.log('$title ===> $e, $s', logLevel: LogLevel.warning);
+      if (silence) {
+        showNotifier(e.toString());
+      } else {
+        showMessage(
+          title: title ?? currentAppLocalizations.tip,
+          message: TextSpan(text: e.toString()),
+        );
+      }
+      return null;
+    } finally {
+      onEnd?.call();
+    }
+  }
+
+  Future<bool?> showMessage({
+    required InlineSpan message,
+    BuildContext? context,
+    String? title,
+    String? confirmText,
+    String? cancelText,
+    bool cancelable = true,
+    bool? dismissible,
+    double maxWidth = 300,
+    double maxHeight = 200,
+  }) async {
+    return showCommonDialog<bool>(
+      context: context,
+      dismissible: dismissible,
+      child: Builder(
+        builder: (context) {
+          final appLocalizations = context.appLocalizations;
+          return CommonDialog(
+            title: title ?? appLocalizations.tip,
+            maxWidth: maxWidth,
+            actions: [
+              if (cancelable)
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(cancelText ?? appLocalizations.cancel),
+                ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(confirmText ?? appLocalizations.confirm),
+              ),
+            ],
+            child: Container(
+              width: maxWidth,
+              constraints: BoxConstraints(maxHeight: maxHeight),
+              child: SingleChildScrollView(
+                child: SelectableText.rich(
+                  TextSpan(
+                    style: Theme.of(context).textTheme.labelLarge,
+                    children: [message],
+                  ),
+                  style: const TextStyle(overflow: TextOverflow.visible),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<bool?> showAllUpdatingMessagesDialog(
+    List<UpdatingMessage> messages,
+  ) async {
+    return showCommonDialog<bool>(
+      child: Builder(
+        builder: (context) {
+          final appLocalizations = currentAppLocalizations;
+          return CommonDialog(
+            padding: EdgeInsets.zero,
+            title: appLocalizations.tip,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(appLocalizations.confirm),
+              ),
+            ],
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: ListView.separated(
+                itemBuilder: (_, index) {
+                  final message = messages[index];
+                  return ListItem(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    title: Text(message.label),
+                    subtitle: Text(message.message),
+                  );
+                },
+                itemCount: messages.length,
+                separatorBuilder: (_, _) => const Divider(height: 0),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<T?> showCommonDialog<T>({
+    required Widget child,
+    BuildContext? context,
+    bool? dismissible,
+    bool filter = true,
+  }) async {
+    return showModal<T>(
+      useRootNavigator: false,
+      context: context ?? globalState.navigatorKey.currentContext!,
+      configuration: FadeScaleTransitionConfiguration(
+        barrierColor: Colors.black38,
+        barrierDismissible: dismissible ?? true,
+      ),
+      builder: (_) => child,
+      filter: filter ? commonFilter : null,
+    );
+  }
+
+  void showNotifier(String text, {MessageActionState? actionState}) {
+    if (text.isEmpty) {
+      return;
+    }
+    navigatorKey.currentContext?.showNotifier(text, actionState: actionState);
+  }
+
+  Future<void> openUrl(String url) async {
+    final res = await showMessage(
+      message: TextSpan(text: url),
+      title: currentAppLocalizations.externalLink,
+      confirmText: currentAppLocalizations.go,
+    );
+    if (res != true) {
+      return;
+    }
+    launchUrl(Uri.parse(url));
+  }
+
+  Future<void> attach() async {
+    if (isAttach == true) {
+      return;
+    }
+    await _initApp();
+    isAttach = true;
+  }
+
+  Future<void> _initApp() async {
+    FlutterError.onError = (details) {
+      Future.microtask(() {
+        commonPrint.log(
+          'exception: ${details.exception} stack: ${details.stack}',
+          logLevel: LogLevel.warning,
+        );
+      });
+    };
+    container.read(systemActionProvider.notifier).updateTray();
+    container.read(profilesActionProvider.notifier).autoUpdateProfiles();
+    container.read(commonActionProvider.notifier).autoCheckUpdate();
+    final appSetting = container.read(appSettingProvider);
+    autoLaunch?.updateStatus(appSetting.autoLaunch);
+    // Never hide a launch that has nothing to run yet. Silent launch is on by
+    // default, so without this someone who just installed the app would see it
+    // disappear into the tray with no profile and no way to notice.
+    final hasProfiles = container.read(profilesProvider).isNotEmpty;
+    if (!appSetting.silentLaunch || !hasProfiles) {
+      window?.show();
+    } else {
+      window?.hide();
+    }
+    // With no profile there is nothing for the dashboard to show, and adding
+    // one is the whole of what the client has to do next -- so open where that
+    // happens. Decided here rather than in the provider's build() so reading
+    // the profile database stays out of it.
+    if (!hasProfiles) {
+      container.read(currentPageLabelProvider.notifier).toProfiles();
+    }
+    await _handleFailedPreference();
+    await container.read(coreActionProvider.notifier).connectCore();
+    await container.read(coreActionProvider.notifier).initCore();
+    await container.read(setupActionProvider.notifier).initStatus();
+    container.read(initProvider.notifier).value = true;
+    permissions.check();
+  }
+
+  Future<void> _handleFailedPreference() async {
+    if (await preferences.isInit) return;
+    final res = await showMessage(
+      title: currentAppLocalizations.tip,
+      message: TextSpan(text: currentAppLocalizations.cacheCorrupt),
+    );
+    if (res == true) {
+      final file = File(await appPath.sharedPreferencesPath);
+      await file.safeDelete();
+    }
+    await container.read(systemActionProvider.notifier).handleExit();
+  }
+
+  Future<bool> showDisclaimer() async {
+    return await showCommonDialog<bool>(
+          dismissible: false,
+          child: CommonDialog(
+            title: currentAppLocalizations.disclaimer,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(_context).pop<bool>(false);
+                },
+                child: Text(currentAppLocalizations.exit),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(_context).pop<bool>(true);
+                },
+                child: Text(currentAppLocalizations.agree),
+              ),
+            ],
+            child: Text(currentAppLocalizations.disclaimerDesc),
+          ),
+        ) ??
+        false;
+  }
+}
+
+final globalState = GlobalState();

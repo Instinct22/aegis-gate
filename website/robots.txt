@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aegis-gate.ru/sitemap.xml

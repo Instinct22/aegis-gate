@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+*.log
+deploy/
+*.zip
+_converter_ref/
+logos/
+variants/
+**/__pycache__/
+**/*.pyc
+**/.venv/

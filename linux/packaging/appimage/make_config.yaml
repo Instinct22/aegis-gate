@@ -1,0 +1,18 @@
+display_name: DHQClash
+
+icon: ./assets/images/icon.png
+
+keywords:
+  - DHQClash
+  - Clash
+  - ClashMeta
+  - Proxy
+
+generic_name: DHQClash
+
+categories:
+  - Network
+
+startup_notify: true
+
+include: []

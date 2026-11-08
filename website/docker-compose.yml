@@ -1,0 +1,8 @@
+services:
+  landing:
+    image: ${LANDING_IMAGE:-liiiiiiiiis/aegis-gate-landing:latest}
+    container_name: aegis-gate-landing
+    restart: unless-stopped
+    ports:
+      # На VPS обычно снаружи 80/443 через Caddy/прокси; локально удобно 8088
+      - "${LANDING_PORT:-8088}:80"

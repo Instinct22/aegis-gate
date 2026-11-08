@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" role="img" aria-label="Singapore">
+  <rect width="60" height="20" fill="#EF3340"/>
+  <rect y="20" width="60" height="20" fill="#FFF"/>
+  <circle cx="14" cy="10" r="6" fill="#FFF"/>
+  <circle cx="16.2" cy="10" r="5" fill="#EF3340"/>
+  <g fill="#FFF">
+    <circle cx="22" cy="6.5" r="1.1"/>
+    <circle cx="24.5" cy="8.5" r="1.1"/>
+    <circle cx="24.5" cy="11.5" r="1.1"/>
+    <circle cx="22" cy="13.5" r="1.1"/>
+    <circle cx="19.5" cy="10" r="1.1"/>
+  </g>
+</svg>
