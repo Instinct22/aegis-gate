@@ -127,8 +127,6 @@ flutter analyze --no-fatal-infos
 flutter test --reporter expanded
 ```
 
-Подробности для разработки — в [`AGENTS.md`](AGENTS.md) и [`.agents/`](.agents/).
-
 Сайт отдельно собирается из каталога `website/` (статические файлы или Docker,
 см. `website/README.md`).
 

@@ -91,3 +91,7 @@ dist-smoke/
 .codegraph/
 .mcp.json
 opencode.jsonc
+AGENTS.md
+CLAUDE.md
+.agents/
+**/CLAUDE.md
