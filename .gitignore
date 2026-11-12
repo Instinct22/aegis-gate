@@ -1,6 +1,10 @@
 # This repository tracks only the Aegis Gate website.
 /*
-!/README.md
 !/.gitignore
+!/.github/
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/docker-publish.yml
 !/website/
 !/website/**

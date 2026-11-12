@@ -9,10 +9,9 @@ window.AEGIS_CONFIG = {
   support: {
     email: "support@aegis-gate.ru",
     /**
-     * Ссылка на Telegram поддержки, например https://t.me/aegis_gate_support
-     * Пока пусто — на сайте кнопка «Telegram · скоро».
+     * Профиль на время теста выдаётся здесь.
      */
-    telegram: "",
+    telegram: "https://t.me/Instinct22",
   },
   downloads: {
     windows: "",

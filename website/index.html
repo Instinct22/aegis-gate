@@ -3,634 +3,205 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title data-i18n="meta.title">Aegis Gate — безопасный доступ к сервисам</title>
-    <meta
-      name="description"
-      content="Aegis Gate — быстрый доступ с минимальным пингом: YouTube и игры, выбор стран без ограничений. 3 дня бесплатно. Windows, Android, macOS."
-    />
+    <title data-i18n="meta.title">Aegis Gate — VPN-сервис</title>
+    <meta name="description" content="Aegis Gate — VPN-сервис. YouTube снова открывается. 3 дня бесплатно." />
     <link rel="canonical" href="https://aegis-gate.ru/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://aegis-gate.ru/" />
     <meta property="og:title" content="Aegis Gate" />
-    <meta
-      property="og:description"
-      content="Безопасный доступ к привычным сервисам без сложной настройки."
-    />
+    <meta property="og:description" content="VPN-сервис. YouTube снова открывается." />
     <meta property="og:image" content="https://aegis-gate.ru/assets/og-image.png" />
-    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#020b12" />
-    <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="icon" href="assets/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="assets/favicon-32.png" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=pages10" />
   </head>
-  <body>
-    <canvas id="net" aria-hidden="true"></canvas>
-    <div class="veil" aria-hidden="true"></div>
+  <body class="is-story">
+    <header class="site-header">
+      <a class="logo" href="#screen-logo" data-story-go="screen-logo" aria-label="Aegis Gate">
+        <img class="logo-mark" src="assets/logo-mark.png?v=2" alt="" width="36" height="36" />
+        <span>Aegis <em>Gate</em></span>
+      </a>
+      <nav class="nav">
+        <a href="#screen-logo" data-story-go="screen-logo" data-i18n="story.nav.logo">Главная</a>
+        <a href="#screen-about" data-story-go="screen-about" data-i18n="story.nav.about">О программе</a>
+        <a href="#screen-get" data-story-go="screen-get" data-i18n="story.nav.get">Скачать</a>
+        <a href="#screen-profile" data-story-go="screen-profile" data-i18n="story.nav.steps">Подписка</a>
+        <a href="faq.html" data-i18n="nav.faq">Вопросы</a>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" class="lang-btn is-active" data-lang-set="ru">RU</button>
+          <button type="button" class="lang-btn" data-lang-set="en">EN</button>
+        </div>
+      </nav>
+    </header>
 
-    <div class="page">
-      <header class="site-header">
-        <a class="logo" href="#top" aria-label="Aegis Gate">
-          <img
-            class="logo-mark"
-            src="assets/logo-mark.png?v=2"
-            alt=""
-            width="36"
-            height="36"
-          />
-          <span>Aegis <em>Gate</em></span>
-        </a>
-        <nav class="nav">
-          <a href="#why" data-i18n="nav.why">Почему мы</a>
-          <a href="#advantage" data-i18n="nav.advantage">Чем лучше</a>
-          <a href="#features" data-i18n="nav.features">Возможности</a>
-          <a href="#pricing" data-i18n="nav.pricing">Пробный период</a>
-          <a href="#faq" data-i18n="nav.faq">FAQ</a>
-          <a href="#download" class="nav-cta" data-i18n="nav.download">Скачать</a>
-          <div class="lang-switch" role="group" aria-label="Language">
-            <button type="button" class="lang-btn is-active" data-lang-set="ru">
-              RU
-            </button>
-            <button type="button" class="lang-btn" data-lang-set="en">EN</button>
-          </div>
-        </nav>
-      </header>
+    <main>
+      <section class="story-screen story-logo is-on" id="screen-logo">
+        <div class="story-corners" aria-hidden="true"></div>
+        <img class="story-logo-img" src="assets/story/logo-full.png" alt="Aegis Gate" />
+        <div class="story-logo-copy">
+          <p class="cover-kicker" data-i18n="cover.kicker">VPN-сервис</p>
+          <p class="story-lead" data-i18n="story.logo.test">Сейчас сервис на этапе тестирования.</p>
+          <button class="btn btn-primary" type="button" data-story-go="screen-get" data-i18n="story.logo.download">Попробовать</button>
+        </div>
+      </section>
 
-      <main id="top">
-        <section class="hero hud">
-          <div class="hero-grid">
-            <div class="hero-copy">
-              <p class="eyebrow" data-i18n="hero.eyebrow">Secure access protocol</p>
-              <h1 class="brand-title">Aegis <span>Gate</span></h1>
-              <p class="lead" data-i18n="hero.lead">
-                Быстрый доступ с минимальным пингом: YouTube, игры и привычные
-                сервисы. Три дня полного доступа бесплатно — чтобы спокойно всё
-                проверить и решить, подходит ли вам сервис.
-              </p>
-              <div class="cta-row">
-                <a class="btn btn-primary" href="#pricing" data-i18n="hero.cta.trial"
-                  >Попробовать 3 дня бесплатно</a
-                >
-                <a class="btn btn-ghost" href="#download" data-i18n="hero.cta.download"
-                  >Скачать приложение</a
-                >
-              </div>
-              <ul class="trust-row">
-                <li data-i18n="hero.trust.platforms">Windows · Android · macOS</li>
-                <li data-i18n="hero.trust.ping">Низкий пинг · видео и игры</li>
-                <li data-i18n="hero.trust.trial">3 дня полного доступа</li>
-                <li data-i18n="hero.trust.privacy">Данные не храним</li>
-              </ul>
-            </div>
-
-            <aside class="hero-side" aria-label="Преимущества">
-              <div class="cell">
-                <div class="label">THROUGHPUT</div>
-                <strong data-i18n="hero.side.throughput.title">Адаптивный канал</strong>
-                <p data-i18n="hero.side.throughput.text">
-                  Маршрут подстраивается под условия сети, предоставляя лучшие
-                  из возможных условия соединения.
-                </p>
-                <div class="bars" aria-hidden="true">
-                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-                </div>
-              </div>
-              <div class="cell">
-                <div class="label">LATENCY</div>
-                <strong data-i18n="hero.side.latency.title">Минимальный пинг</strong>
-                <p data-i18n="hero.side.latency.text">
-                  Видео и онлайн-игры с низкими задержками.
-                </p>
-              </div>
-              <div class="cell">
-                <div class="label">REGIONS</div>
-                <strong data-i18n="hero.side.regions.title">Много стран</strong>
-                <p data-i18n="hero.side.regions.text">
-                  Свободный выбор · охват сети расширяется.
-                </p>
-              </div>
-              <div class="cell">
-                <div class="label">PRIVACY</div>
-                <strong data-i18n="hero.side.privacy.title">Конфиденциальность</strong>
-                <p data-i18n="hero.side.privacy.text">
-                  Безопасность и полная конфиденциальность: Aegis Gate не
-                  хранит ваши данные.
-                </p>
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        <section class="section" id="why">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="why.eyebrow">Почему Aegis Gate</p>
-            <h2 data-i18n="why.title">Доступ без лишней сложности</h2>
-            <p data-i18n="why.lead">
-              Акцент на стабильности и простоте: подключились — открыли нужный
-              сервис. Без перегруженного интерфейса и без «магии», которую
-              невозможно объяснить.
+      <section class="story-screen" id="screen-about">
+        <div class="story-corners" aria-hidden="true"></div>
+        <div class="story-about">
+          <div class="story-copy">
+            <p class="cover-kicker" data-i18n="cover.kicker">VPN-сервис</p>
+            <h1 data-i18n="story.about.title">YouTube снова открывается</h1>
+            <p class="story-lead" data-i18n="story.about.lead">
+              Одна программа для обычного просмотра. Нажали на щит — привычные сервисы снова работают.
             </p>
-          </div>
-          <div class="reasons">
-            <article class="cell">
-              <div class="label">PATH</div>
-              <h3 data-i18n="why.path.title">Стабильный путь</h3>
-              <p data-i18n="why.path.text">
-                Соединение строится так, чтобы привычные сервисы открывались
-                предсказуемо — даже когда прямой доступ нестабилен.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">PRIVACY</div>
-              <h3 data-i18n="why.privacy.title">Данные под защитой</h3>
-              <p data-i18n="why.privacy.text">
-                Безопасность и полная конфиденциальность: мы не храним трафик,
-                историю посещений и личные данные пользователей.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">UX</div>
-              <h3 data-i18n="why.ux.title">Понятный клиент</h3>
-              <p data-i18n="why.ux.text">
-                Добавили профиль, нажали старт — готово. Статус, скорость и
-                выбор направления всегда на виду.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section" id="advantage">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="adv.eyebrow">Сравнение подходов</p>
-            <h2 data-i18n="adv.title">Чем Aegis Gate удобнее</h2>
-            <p data-i18n="adv.lead">
-              Мы разобрали популярные клиенты доступа: где всё слишком сложно
-              «для гиков», а где — слишком просто и без нормальной маршрутизации.
-              Aegis Gate собирает лучшее: простое лицо и сильная техника под
-              капотом.
-            </p>
-          </div>
-          <div class="compare-grid">
-            <article class="cell">
-              <div class="label">01</div>
-              <h3 data-i18n="adv.1.title">Подключение в одно касание</h3>
-              <p data-i18n="adv.1.text">
-                Не нужно проходить три окна и гадать, какой тумблер включить.
-                Открыли приложение — нажали «старт» — готово. Цель: защита без
-                лишних шагов.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">02</div>
-              <h3 data-i18n="adv.2.title">Умный выбор сервера</h3>
-              <p data-i18n="adv.2.text">
-                По умолчанию приложение само выбирает быстрый и стабильный
-                узел. Хотите другую страну — переключаете вручную. Не нужно
-                разбираться в сотнях технических карточек.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">03</div>
-              <h3 data-i18n="adv.3.title">Сила — под капотом</h3>
-              <p data-i18n="adv.3.text">
-                Сложная маршрутизация и настройки ядра не вынесены на главный
-                экран. Вы видите понятный статус и страны, а «тяжёлая техника»
-                работает незаметно.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">04</div>
-              <h3 data-i18n="adv.4.title">Сразу видно, что происходит</h3>
-              <p data-i18n="adv.4.text">
-                Понятный статус соединения, страна и пинг — без логов, «прокси»
-                и вкладок «для админов». Ответ на главный вопрос: защищены ли вы
-                и насколько быстро идёт связь.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">05</div>
-              <h3 data-i18n="adv.5.title">Одинаково на телефоне и ПК</h3>
-              <p data-i18n="adv.5.text">
-                Одна логика на Windows и Android: не учите приложение заново на
-                каждом устройстве. Добавили профиль — пользуетесь везде.
-              </p>
-            </article>
-            <article class="cell">
-              <div class="label">06</div>
-              <h3 data-i18n="adv.6.title">Сначала проверяете сами</h3>
-              <p data-i18n="adv.6.text">
-                3 дня полного доступа бесплатно: изучаете приложение, смотрите
-                пинг и стабильность у себя — и только потом решаете, нужно ли
-                продолжать.
-              </p>
-            </article>
-          </div>
-          <p class="fineprint advantage-note" data-i18n="adv.note">
-            Итог для пользователя: проще, чем «технические» клиенты с кучей
-            вкладок, и сильнее утилит «вставил ключ и всё» — без бедной
-            маршрутизации и без хранения ваших данных.
-          </p>
-        </section>
-
-        <section class="section" id="features">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="features.eyebrow">Возможности</p>
-            <h2 data-i18n="features.title">Всё нужное — в одном приложении</h2>
-            <p data-i18n="features.lead">
-              Клиент для быстрого и стабильного доступа: выбирайте страну без
-              ограничений и держите низкий пинг для видео и игр.
-            </p>
-          </div>
-
-          <div class="countries-block cell">
-            <div class="label" data-i18n="countries.label">ЛОКАЦИИ</div>
-            <h3 data-i18n="countries.title">Выбор страны без ограничений</h3>
-            <p data-i18n="countries.lead">
-              Сейчас доступны Финляндия, Германия, Италия и Эстония. В каждой
-              стране — не один сервер, а несколько узлов на выбор.
-            </p>
-            <ul class="country-flags" aria-label="Доступные страны" id="country-list">
-              <li data-country="fi">
-                <img
-                  class="country-flags__flag"
-                  src="assets/flags/fi.svg"
-                  alt=""
-                  width="40"
-                  height="27"
-                />
-                <span class="country-flags__name" data-i18n="countries.fi"
-                  >Финляндия</span
-                >
-                <span class="country-flags__ping" data-ping="fi">— ms</span>
-              </li>
-              <li data-country="de">
-                <img
-                  class="country-flags__flag"
-                  src="assets/flags/de.svg"
-                  alt=""
-                  width="40"
-                  height="27"
-                />
-                <span class="country-flags__name" data-i18n="countries.de"
-                  >Германия</span
-                >
-                <span class="country-flags__ping" data-ping="de">— ms</span>
-              </li>
-              <li data-country="it">
-                <img
-                  class="country-flags__flag"
-                  src="assets/flags/it.svg"
-                  alt=""
-                  width="40"
-                  height="27"
-                />
-                <span class="country-flags__name" data-i18n="countries.it"
-                  >Италия</span
-                >
-                <span class="country-flags__ping" data-ping="it">— ms</span>
-              </li>
-              <li data-country="ee">
-                <img
-                  class="country-flags__flag"
-                  src="assets/flags/ee.svg"
-                  alt=""
-                  width="40"
-                  height="27"
-                />
-                <span class="country-flags__name" data-i18n="countries.ee"
-                  >Эстония</span
-                >
-                <span class="country-flags__ping" data-ping="ee">— ms</span>
-              </li>
-              <li class="country-flags__more">
-                <span class="country-flags__plus" aria-hidden="true">＋</span>
-                <span class="country-flags__name" data-i18n="countries.more"
-                  >скоро ещё</span
-                >
-              </li>
+            <ul class="story-services">
+              <li>YouTube</li>
+              <li>Instagram</li>
+              <li>Discord</li>
+              <li>X</li>
             </ul>
-            <p class="countries-note" data-i18n="countries.note">
-              Охват сети расширяется: добавляем серверы в текущих странах и
-              новые локации со временем.
-            </p>
           </div>
-
-          <ul class="feature-list">
+          <ul class="story-pluses">
             <li>
-              <span class="label">01</span>
-              <strong data-i18n="feat.01.title">Минимальный пинг</strong>
-              <span data-i18n="feat.01.text"
-                >Самое быстрое и стабильное соединение: комфортный YouTube и
-                онлайн-игры с минимальными задержками.</span
-              >
+              <img src="assets/story/shield-on.png" alt="" width="48" height="48" />
+              <span data-i18n="story.plus.1">Любимое видео снова открывается</span>
             </li>
             <li>
-              <span class="label">02</span>
-              <strong data-i18n="feat.02.title">Свободный выбор стран</strong>
-              <span data-i18n="feat.02.text"
-                >Финляндия, Германия, Италия, Эстония — в каждой стране несколько
-                серверов, не один узел.</span
-              >
+              <img src="assets/story/shield-wait.png" alt="" width="48" height="48" />
+              <span data-i18n="story.plus.2">Вас не записывают и не подглядывают</span>
             </li>
             <li>
-              <span class="label">03</span>
-              <strong data-i18n="feat.03.title">Обновление сети</strong>
-              <span data-i18n="feat.03.text"
-                >Охват сети расширяется: новые серверы в текущих странах и
-                дополнительные локации.</span
-              >
-            </li>
-            <li>
-              <span class="label">04</span>
-              <strong data-i18n="feat.04.title">Без хранения данных</strong>
-              <span data-i18n="feat.04.text"
-                >Полная конфиденциальность: Aegis Gate не хранит ваш трафик и
-                историю.</span
-              >
-            </li>
-            <li>
-              <span class="label">05</span>
-              <strong data-i18n="feat.05.title">Доступ к привычным сервисам</strong>
-              <span data-i18n="feat.05.text"
-                >YouTube, Instagram, Telegram и другие онлайн-ресурсы.</span
-              >
-            </li>
-            <li>
-              <span class="label">06</span>
-              <strong data-i18n="feat.06.title">Профили по ссылке или файлу</strong>
-              <span data-i18n="feat.06.text"
-                >Импорт за несколько секунд, автообновление.</span
-              >
-            </li>
-            <li>
-              <span class="label">07</span>
-              <strong data-i18n="feat.07.title">Несколько платформ</strong>
-              <span data-i18n="feat.07.text"
-                >Один подход на телефоне и компьютере. Без рекламы в клиенте.</span
-              >
+              <img src="assets/story/shield-off.png" alt="" width="48" height="48" />
+              <span data-i18n="story.plus.3">Ничего настраивать не нужно</span>
             </li>
           </ul>
-        </section>
-
-        <section class="section" id="how">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="how.eyebrow">Как это работает</p>
-            <h2 data-i18n="how.title">Три шага до соединения</h2>
-            <p data-i18n="how.lead">
-              Сайт объясняет продукт и ведёт к скачиванию. Само соединение
-              поднимает приложение на вашем устройстве.
-            </p>
-          </div>
-          <ol class="steps">
-            <li class="cell">
-              <span class="step-num">01</span>
-              <div>
-                <h3 data-i18n="how.1.title">Скачайте клиент</h3>
-                <p data-i18n="how.1.text">
-                  Установите Aegis Gate на Windows, Android или macOS.
-                </p>
-              </div>
-            </li>
-            <li class="cell">
-              <span class="step-num">02</span>
-              <div>
-                <h3 data-i18n="how.2.title">Активируйте пробный доступ</h3>
-                <p data-i18n="how.2.text">
-                  Получите 3 дня полного доступа бесплатно: изучите приложение,
-                  проверьте работу у себя и решите, нужно ли оно вам. Профиль —
-                  по ссылке, файлу или QR-коду.
-                </p>
-              </div>
-            </li>
-            <li class="cell">
-              <span class="step-num">03</span>
-              <div>
-                <h3 data-i18n="how.3.title">Включите доступ</h3>
-                <p data-i18n="how.3.text">
-                  Нажмите старт — приложение построит безопасный путь к нужным
-                  сервисам.
-                </p>
-              </div>
-            </li>
-          </ol>
-        </section>
-
-        <section class="section" id="pricing">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="pricing.eyebrow">Доступ</p>
-            <h2 data-i18n="pricing.title">3 дня полного доступа бесплатно</h2>
-            <p data-i18n="pricing.lead">
-              Каждый новый пользователь получает полный доступ к приложению на 3
-              дня — без ограничений функций. Это время, чтобы спокойно изучить
-              Aegis Gate, проверить соединение у себя и понять, нужен ли вам
-              сервис. Платные тарифы появятся позже.
-            </p>
-          </div>
-          <div class="reasons" id="pricing-plans"></div>
-          <p class="fineprint pricing-note" data-i18n="pricing.note">
-            Авторизация и приём оплаты ещё не подключены. После запуска кабинета
-            пробный период с полным доступом останется точкой входа; оплата —
-            только если решите продолжить.
-          </p>
-        </section>
-
-        <section class="section" id="faq">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="faq.eyebrow">FAQ</p>
-            <h2 data-i18n="faq.title">Частые вопросы</h2>
-          </div>
-          <div class="faq-list">
-            <details class="cell">
-              <summary data-i18n="faq.trial.q">Есть ли пробный период?</summary>
-              <p data-i18n="faq.trial.a">
-                Да — 3 дня полного доступа бесплатно. Вы можете спокойно изучить
-                приложение, проверить работу у себя и решить, подходит ли вам
-                сервис. Кабинет и оплата ещё готовятся.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.account.q">Нужен ли аккаунт?</summary>
-              <p data-i18n="faq.account.a">
-                Полноценная авторизация появится вместе с кабинетом. Пока можно
-                пользоваться пробным доступом без сложной регистрации на сайте.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.countries.q">Какие страны доступны?</summary>
-              <p data-i18n="faq.countries.a">
-                Сейчас — Финляндия, Германия, Италия и Эстония. В каждой стране
-                несколько серверов. Охват сети расширяется: добавляем узлы и
-                новые локации.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.privacy.q">Храните ли вы мои данные?</summary>
-              <p data-i18n="faq.privacy.a">
-                Нет. Aegis Gate не хранит трафик и историю пользователей —
-                безопасность и полная конфиденциальность данных.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.games.q">Подойдёт ли для игр и YouTube?</summary>
-              <p data-i18n="faq.games.a">
-                Сервис нацелен на быстрое стабильное соединение с минимальным
-                пингом — и для видео, и для онлайн-игр с низкими задержками.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.advantage.q"
-                >Чем вы лучше обычных клиентов?</summary
-              >
-              <p data-i18n="faq.advantage.a">
-                Проще «технических» приложений с кучей вкладок и сильнее совсем
-                минималистичных утилит: одно касание, умный выбор сервера, пинг
-                и страны на виду, мощная маршрутизация под капотом — без хранения
-                ваших данных.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.install.q">Как установить приложение?</summary>
-              <p data-i18n="faq.install.a">
-                Раздел в подготовке: здесь появятся шаги установки для Windows,
-                Android и macOS.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.permissions.q"
-                >Какие разрешения нужны системе?</summary
-              >
-              <p data-i18n="faq.permissions.a">
-                Раздел в подготовке: здесь будет описано, какие системные запросы
-                (VPN/сеть) появляются при первом запуске и зачем они нужны.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.connect.q"
-                >Что делать, если не подключается?</summary
-              >
-              <p data-i18n="faq.connect.a">
-                Раздел в подготовке: здесь появятся типовые шаги диагностики.
-                Пока напишите в поддержку — email или Telegram.
-              </p>
-            </details>
-            <details class="cell">
-              <summary data-i18n="faq.support.q"
-                >Куда писать, если что-то не работает?</summary
-              >
-              <p data-i18n="faq.support.a">
-                Напишите на support@aegis-gate.ru или в Telegram поддержки.
-                Учтите: работа у конкретного пользователя не гарантируется — см.
-                условия и политику конфиденциальности.
-              </p>
-            </details>
-          </div>
-        </section>
-
-        <section class="section section--download" id="download">
-          <div class="download-panel hud">
-            <div class="topbar">
-              <span>RELEASE <b>READY</b></span>
-              <span>SITE <b>AEGIS-GATE.RU</b></span>
+          <div class="story-shields">
+            <div class="story-states">
+              <figure>
+                <img src="assets/story/shield-off.png" alt="" />
+                <figcaption>
+                  <strong data-i18n="story.state.off">Выключено</strong>
+                  <span data-i18n="story.state.off.line">Ролик может не открываться</span>
+                </figcaption>
+              </figure>
+              <figure>
+                <img src="assets/story/shield-wait.png" alt="" />
+                <figcaption>
+                  <strong data-i18n="story.state.wait">Ищем путь</strong>
+                  <span data-i18n="story.state.wait.line">Секунда, больше ничего не нажимайте</span>
+                </figcaption>
+              </figure>
+              <figure>
+                <img src="assets/story/shield-on.png" alt="" />
+                <figcaption>
+                  <strong data-i18n="story.state.on">Можно смотреть</strong>
+                  <span data-i18n="story.state.on.line">Щит раскрылся, сервисы открыты</span>
+                </figcaption>
+              </figure>
+              <figure>
+                <img src="assets/story/shield-err.png" alt="" />
+                <figcaption>
+                  <strong data-i18n="story.state.err">Ищем другой</strong>
+                  <span data-i18n="story.state.err.line">Этот путь молчит, пробуем следующий</span>
+                </figcaption>
+              </figure>
             </div>
-            <p class="eyebrow" data-i18n="download.eyebrow">Старт</p>
-            <h2 data-i18n="download.title">Скачать Aegis Gate</h2>
-            <p data-i18n="download.lead">
-              Когда файлы релизов появятся на сервере, кнопки станут активными
-              автоматически — достаточно прописать URL в <code>config.js</code>.
-            </p>
-            <div class="download-actions">
-              <a
-                class="btn btn-primary"
-                data-download="windows"
-                href="#"
-                aria-disabled="true"
-                >Windows · <span data-download-state data-i18n="download.soon"
-                  >Скоро</span
-                ></a
-              >
-              <a
-                class="btn btn-primary"
-                data-download="android"
-                href="#"
-                aria-disabled="true"
-                >Android · <span data-download-state data-i18n="download.soon"
-                  >Скоро</span
-                ></a
-              >
-              <a
-                class="btn btn-primary"
-                data-download="macos"
-                href="#"
-                aria-disabled="true"
-                >macOS · <span data-download-state data-i18n="download.soon"
-                  >Скоро</span
-                ></a
-              >
-            </div>
-            <p class="fineprint" data-i18n="download.fine">
-              Добавляйте только конфигурации из доверенного источника. Не
-              публикуйте личные ссылки и токены.
-            </p>
           </div>
-        </section>
-
-        <section class="section" id="support">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="support.eyebrow">Поддержка</p>
-            <h2 data-i18n="support.title">Мы на связи</h2>
-            <p>
-              <span data-i18n="support.email">Email:</span>
-              <a data-support-email href="mailto:support@aegis-gate.ru"
-                >support@aegis-gate.ru</a
-              >
-            </p>
-            <p>
-              <a
-                class="btn btn-ghost"
-                data-support-telegram
-                href="#"
-                aria-disabled="true"
-                data-i18n="support.tg.soon"
-                >Telegram · скоро</a
-              >
-            </p>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site-footer">
-        <a class="logo" href="#top">
-          <img
-            class="logo-mark"
-            src="assets/logo-mark.png?v=2"
-            alt=""
-            width="28"
-            height="28"
-          />
-          <span>Aegis <em>Gate</em></span>
-        </a>
-        <p>© <span id="year"></span> Aegis Gate · aegis-gate.ru</p>
-        <div class="footer-links">
-          <a href="legal/offer.html" data-i18n="footer.terms">Условия</a>
-          <a href="legal/privacy.html" data-i18n="footer.privacy"
-            >Конфиденциальность</a
-          >
-          <a href="legal/payment.html" data-i18n="footer.payment">Оплата</a>
-          <a href="#support" data-i18n="footer.support">Поддержка</a>
         </div>
-      </footer>
-    </div>
+      </section>
 
-    <script src="config.js"></script>
-    <script src="i18n.js"></script>
-    <script src="site.js"></script>
-    <script src="script.js?v=release-2"></script>
+      <section class="story-screen" id="screen-get">
+        <div class="story-corners" aria-hidden="true"></div>
+        <div class="story-get">
+        <div class="story-get-copy">
+          <p class="cover-kicker" data-i18n="svc.download">Скачать</p>
+          <h2 data-i18n="story.get.title">Поставьте и проверьте сами</h2>
+          <p data-i18n="story.get.lead">Три дня бесплатно.</p>
+          <div class="cta-row os-row">
+            <a class="btn btn-primary btn-os" data-download="windows" href="#">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.2 10.2 4.2v6.7H3V5.2zm8.2-1.1 9.8-1.4v8.2h-9.8V4.1zM3 13.1h7.2v6.7L3 18.8v-5.7zm8.2 0h9.8V21.3l-9.8-1.4v-6.8z"/></svg>
+              Windows · <span data-download-state data-i18n="svc.soon">Скоро</span>
+            </a>
+            <a class="btn btn-primary btn-os" data-download="android" href="#">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7.2 8.4a4.8 4.8 0 0 1 9.6 0V9H7.2v-.6zM6 10.2h12v6.6a1.8 1.8 0 0 1-1.8 1.8h-.8v2.2h-1.5V18.6h-3.8v2.2H8.6V18.6H7.8A1.8 1.8 0 0 1 6 16.8v-6.6zm-1.4 1.2v4.8H3.2v-4.8h1.4zm14.2 0h1.4v4.8h-1.4v-4.8zM8.3 5.4 7.2 4.1l1-.9.9 1a6.4 6.4 0 0 1 5.8 0l.9-1 1 .9-1.1 1.3a5.6 5.6 0 0 0-6.4 0z"/></svg>
+              Android · <span data-download-state data-i18n="svc.soon">Скоро</span>
+            </a>
+            <a class="btn btn-primary btn-os" data-download="macos" href="#">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.2 1.8-3.3 1.9-3.4-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.6.8-3.3.8s-1.7-.8-2.9-.8c-1.5 0-2.8.9-3.6 2.2-1.5 2.7-.4 6.6 1.1 8.8.7 1.1 1.6 2.3 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.9.7 1.9-1.1 2.6-2.1c.8-1.2 1.2-2.3 1.2-2.4 0 0-2.2-.9-2.2-3.6zM14.7 6.6c.6-.7 1-1.7.9-2.6-.9 0-1.9.6-2.5 1.3-.6.6-1.1 1.6-.9 2.6 1 .1 1.9-.5 2.5-1.3z"/></svg>
+              macOS · <span data-download-state data-i18n="svc.soon">Скоро</span>
+            </a>
+          </div>
+          <button class="btn btn-ghost story-sub-link" type="button" data-story-go="screen-profile" data-i18n="story.get.sub">Уже скачали? Получить подписку</button>
+          <div class="story-pager">
+            <button class="btn btn-ghost" type="button" data-story-go="screen-about" data-i18n="story.nav.about">О программе</button>
+            <a class="btn btn-ghost" href="faq.html" data-i18n="nav.faq">Вопросы</a>
+          </div>
+        </div>
+        <figure class="story-shot-wrap">
+          <img class="story-shot" src="assets/story/desk.jpg" width="676" height="522" alt="Окно Aegis Gate: Защищено" />
+        </figure>
+        </div>
+      </section>
+
+      <section class="story-screen story-last" id="screen-profile">
+        <div class="story-corners" aria-hidden="true"></div>
+        <div class="story-profile">
+          <img src="assets/story/shield-on.png" alt="" width="160" height="160" />
+          <div class="story-shields">
+            <h2 data-i18n="story.profile.title">Подписка</h2>
+            <p data-i18n="story.profile.lead">Пока идёт тест, профиль выдаём в Telegram.</p>
+            <a class="btn btn-primary btn-os story-tg" href="https://t.me/Instinct22" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20.7 4.3 3.4 10.9c-1.2.5-1.2 1.1-.2 1.4l4.4 1.4 1.7 5.2c.2.6.1.8.7.8.4 0 .6-.2.8-.4l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.2-1.5zM8.8 13.6l8.7-5.5c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.4-4.7z"/></svg>
+              <span data-i18n="story.profile.handle">@Instinct22</span>
+            </a>
+            <p class="story-channel" data-i18n="svc.channel">
+              Адаптивный канал. Маршрут подстраивается под условия сети, предоставляя лучшие из возможных условия соединения.
+            </p>
+          </div>
+        </div>
+        <footer class="site-footer story-foot">
+          <a href="legal/offer.html" data-i18n="foot.terms">Условия</a>
+          <a href="legal/privacy.html" data-i18n="foot.privacy">Конфиденциальность</a>
+          <a href="legal/payment.html" data-i18n="foot.pay">Оплата</a>
+          <a href="faq.html" data-i18n="nav.faq">Вопросы</a>
+          <span id="year"></span>
+        </footer>
+      </section>
+    </main>
+
+    <script src="config.js?v=pages4"></script>
+    <script src="i18n.js?v=pages7"></script>
+    <script src="site.js?v=pages4"></script>
+    <script>
+      (function () {
+        var screens = Array.prototype.slice.call(document.querySelectorAll(".story-screen"));
+        function show(id) {
+          var found = false;
+          screens.forEach(function (screen) {
+            var on = screen.id === id;
+            screen.classList.toggle("is-on", on);
+            if (on) found = true;
+          });
+          if (!found) return;
+          document.querySelectorAll(".nav [data-story-go]").forEach(function (link) {
+            if (link.getAttribute("data-story-go") === id) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+          });
+          if (history.replaceState) history.replaceState(null, "", "#" + id);
+        }
+        document.addEventListener("click", function (event) {
+          var target = event.target.closest("[data-story-go]");
+          if (!target) return;
+          event.preventDefault();
+          show(target.getAttribute("data-story-go"));
+        });
+        var hash = (location.hash || "").replace("#", "");
+        var start = screens.some(function (screen) { return screen.id === hash; }) ? hash : "screen-logo";
+        show(start);
+      })();
+    </script>
   </body>
 </html>

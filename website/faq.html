@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aegis Gate — вопросы</title>
+    <meta name="description" content="Установка Aegis Gate и короткие ответы." />
+    <meta name="theme-color" content="#020b12" />
+    <link rel="icon" href="assets/favicon-32.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=pages10" />
+  </head>
+  <body class="page-read">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="veil" aria-hidden="true"></div>
+    <div class="page">
+      <header class="site-header">
+        <a class="logo" href="index.html">
+          <img class="logo-mark" src="assets/logo-mark.png?v=2" alt="" width="36" height="36" />
+          <span>Aegis <em>Gate</em></span>
+        </a>
+        <nav class="nav">
+          <a href="index.html#screen-logo" data-i18n="nav.home">Главная</a>
+          <a href="index.html#screen-about" data-i18n="story.nav.about">О программе</a>
+          <a href="index.html#screen-get" data-i18n="story.nav.get">Скачать</a>
+          <a href="index.html#screen-profile" data-i18n="story.nav.steps">Подписка</a>
+          <a href="faq.html" aria-current="page" data-i18n="nav.faq">Вопросы</a>
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" class="lang-btn is-active" data-lang-set="ru">RU</button>
+            <button type="button" class="lang-btn" data-lang-set="en">EN</button>
+          </div>
+        </nav>
+      </header>
+
+      <main class="sheet sheet--narrow">
+        <section class="install-card">
+          <h2 data-i18n="faq.install.title">Установка</h2>
+          <ol>
+            <li data-i18n="faq.win">Windows — скачайте файл и запустите установщик.</li>
+            <li data-i18n="faq.and">Android — откройте APK и разрешите установку.</li>
+            <li data-i18n="faq.mac">macOS — откройте DMG и перенесите Aegis Gate в Программы.</li>
+            <li data-i18n="faq.first">При первом запуске подтвердите запрос системы на VPN.</li>
+          </ol>
+          <a class="btn btn-primary" href="index.html#screen-get" data-i18n="svc.download">Скачать</a>
+        </section>
+        <div class="faq-list">
+          <details class="cell" open>
+            <summary data-i18n="faq.q1">Это бесплатно?</summary>
+            <p data-i18n="faq.a1">3 дня полного доступа бесплатно. Дальше — если решите остаться.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q2">Вы храните данные?</summary>
+            <p data-i18n="faq.a2">Нет. Трафик и историю посещений не храним.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q3">Какие сервисы будут доступны?</summary>
+            <p data-i18n="faq.a3">YouTube, Instagram, Discord, X и остальные заблокированные сервисы снова будут доступны.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q4">Не подключается?</summary>
+            <p data-i18n="faq.a4">Выберите профиль, подтвердите запрос системы на VPN и нажмите щит ещё раз.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q5">Долго написано «Ищем путь»?</summary>
+            <p data-i18n="faq.a5">Подождите. Пока программа ищет маршрут, больше ничего не нажимайте.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q6">Пишет «Ищем другой»?</summary>
+            <p data-i18n="faq.a6">Этот маршрут молчит. Программа сама пробует следующий.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q7">Сервис всё равно не открывается?</summary>
+            <p data-i18n="faq.a7">Выключите щит и включите снова. Проверьте, что интернет без программы работает.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q8">На чём работает?</summary>
+            <p data-i18n="faq.a8">На Windows, Android и macOS. Одна программа на компьютере и на телефоне.</p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q9">Где взять профиль?</summary>
+            <p>
+              <span data-i18n="faq.a9">Пока идёт тест, профиль выдаём в Telegram.</span>
+              <a href="https://t.me/Instinct22" target="_blank" rel="noopener">@Instinct22</a>
+            </p>
+          </details>
+          <details class="cell">
+            <summary data-i18n="faq.q10">Обычные шаги не помогли?</summary>
+            <p>
+              <span data-i18n="faq.a10">Напишите в Telegram</span>
+              <a href="https://t.me/Instinct22" target="_blank" rel="noopener">@Instinct22</a>
+            </p>
+          </details>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <span>© <span id="year"></span> Aegis Gate</span>
+        <div class="footer-links">
+          <a href="legal/offer.html" data-i18n="foot.terms">Условия</a>
+          <a href="legal/privacy.html" data-i18n="foot.privacy">Конфиденциальность</a>
+          <a href="legal/payment.html" data-i18n="foot.pay">Оплата</a>
+        </div>
+      </footer>
+    </div>
+    <script src="config.js"></script>
+    <script src="i18n.js?v=pages7"></script>
+    <script src="site.js"></script>
+    <script src="script.js?v=cover"></script>
+  </body>
+</html>

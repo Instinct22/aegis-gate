@@ -1,5 +1,3 @@
-# По образцу converter: GitHub Actions → Docker Hub → (опционально) деплой на VPS.
-# Перед первым пушем задайте Secrets в GitHub → Settings → Secrets and variables → Actions.
 name: Docker Publish
 
 on:
@@ -13,12 +11,8 @@ on:
         type: string
 
 env:
-  # Поменяйте под свой Docker Hub namespace
   REGISTRY: liiiiiiiiis
   IMAGE_NAME: aegis-gate-landing
-  # Раскомментируйте и заполните, когда будете деплоить по SSH как converter
-  # DEPLOY_HOST: 0.0.0.0
-  # DEPLOY_PATH: /opt/aegis-gate-landing
 
 jobs:
   build:
@@ -56,8 +50,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: Dockerfile
+          context: website
+          file: website/Dockerfile
           push: true
           tags: ${{ steps.tags.outputs.tags }}
           cache-from: type=gha,scope=aegis-gate-landing

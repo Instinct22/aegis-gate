@@ -100,16 +100,16 @@
       btn.href = url;
       btn.removeAttribute("aria-disabled");
       if (label) {
-        label.setAttribute("data-i18n", "download.get");
-        label.textContent = t("download.get", getLang());
+        label.setAttribute("data-i18n", "svc.get");
+        label.textContent = t("svc.get", getLang());
       }
     } else {
       btn.href = "#";
       btn.setAttribute("aria-disabled", "true");
       btn.addEventListener("click", (e) => e.preventDefault());
       if (label) {
-        label.setAttribute("data-i18n", "download.soon");
-        label.textContent = t("download.soon", getLang());
+        label.setAttribute("data-i18n", "svc.soon");
+        label.textContent = t("svc.soon", getLang());
       }
     }
   });
