@@ -992,6 +992,7 @@ button {
   width: 380px;
   height: 176px;
   font-size: 15px;
+  line-height: 1.35;
 }
 
 .demo-status {
@@ -1162,10 +1163,10 @@ button {
 }
 
 .bubble {
-  max-width: 82%;
-  padding: 10px 14px;
-  font-size: 14px;
-  line-height: 1.45;
+  max-width: 92%;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
   border-radius: 12px;
 }
 
