@@ -200,12 +200,5 @@ jobs:
               docker compose logs --tail=120 landing || true
               exit 1
             fi
-            caddy_name=$(docker ps --format '{{.Names}}' | grep caddy | head -n 1 || true)
-            if [ -n "$caddy_name" ]; then
-              mounts=$(docker inspect -f '{{range .Mounts}}{{.Destination}} {{end}}' "$caddy_name")
-              case "$mounts" in
-                *"/etc/caddy/sites"*)
-                  docker exec "$caddy_name" caddy reload --config /etc/caddy/Caddyfile
-                  ;;
-              esac
-            fi
+            cid=$(docker ps -q --filter name=caddy | head -n 1 || true)
+            if [ -n "$cid" ] && docker inspect "$cid" | grep -q /etc/caddy/sites; then docker exec "$cid" caddy reload --config /etc/caddy/Caddyfile; fi
