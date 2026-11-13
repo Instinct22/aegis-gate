@@ -1132,12 +1132,12 @@ button {
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   margin-top: 12px;
 }
 
 .chips span {
-  padding: 5px 10px;
+  padding: 5px 8px;
   border: 1px solid var(--line);
   font-size: 13px;
   color: var(--muted);
@@ -2416,6 +2416,8 @@ button {
   .demo {
     width: 100%;
     max-width: 380px;
+    height: auto;
+    min-height: 176px;
   }
 
   .band {
