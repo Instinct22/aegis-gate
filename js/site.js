@@ -222,10 +222,20 @@
     var subDemo = $('[data-demo="sub"]');
     if (subDemo) {
       var subLabel = $('.demo-sub__text', subDemo);
-      cycle(subDemo, [2400, 3200], function (i) {
-        subDemo.setAttribute('data-phase', String(i));
-        subLabel.textContent = i ? 'Обновлено только что' : 'Обновляем подписку…';
-      });
+      var subTimer = 0;
+      whileVisible(
+        subDemo,
+        function () {
+          if (subDemo.getAttribute('data-phase') === '1') return;
+          subTimer = window.setTimeout(function () {
+            subDemo.setAttribute('data-phase', '1');
+            subLabel.textContent = 'Обновлено только что';
+          }, 2400);
+        },
+        function () {
+          window.clearTimeout(subTimer);
+        }
+      );
     }
 
     var chat = $('[data-demo="chat"]');
