@@ -146,7 +146,8 @@ jobs:
             fi
             docker --version
             docker compose version
-            mkdir -p ${{ env.DEPLOY_PATH }}
+            mkdir -p ${{ env.DEPLOY_PATH }} /opt/caddy-sites
+            docker network inspect edge >/dev/null 2>&1 || docker network create edge
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -159,6 +160,15 @@ jobs:
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           source: docker-compose.yml
           target: ${{ env.DEPLOY_PATH }}/
+
+      - name: Sync Caddy site
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ env.DEPLOY_HOST }}
+          username: root
+          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          source: aegis-gate.caddy
+          target: /opt/caddy-sites/
 
       - name: Pull and recreate on server
         uses: appleboy/ssh-action@v1.2.0
@@ -189,4 +199,13 @@ jobs:
             if ! docker compose ps --status running | grep -q aegis-gate-landing; then
               docker compose logs --tail=120 landing || true
               exit 1
+            fi
+            caddy_name=$(docker ps --format '{{.Names}}' | grep caddy | head -n 1 || true)
+            if [ -n "$caddy_name" ]; then
+              mounts=$(docker inspect -f '{{range .Mounts}}{{.Destination}} {{end}}' "$caddy_name")
+              case "$mounts" in
+                *"/etc/caddy/sites"*)
+                  docker exec "$caddy_name" caddy reload --config /etc/caddy/Caddyfile
+                  ;;
+              esac
             fi

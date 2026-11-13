@@ -1,0 +1,3 @@
+aegis-gate.ru, www.aegis-gate.ru {
+	reverse_proxy aegis-gate-landing:80
+}
