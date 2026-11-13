@@ -1,10 +1,6 @@
-# This repository tracks only the Aegis Gate website.
-/*
-!/.gitignore
-!/.github/
-/.github/*
-!/.github/workflows/
-/.github/workflows/*
-!/.github/workflows/docker-publish.yml
-!/website/
-!/website/**
+.DS_Store
+Thumbs.db
+*.log
+
+# Черновой макет, не часть публикуемого сайта
+/design/
