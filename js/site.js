@@ -433,6 +433,353 @@
     });
   }
 
+  /* ---------- VirusTotal ---------- */
+
+  var VT_FILES = {
+    windows: { group: 'windows', os: 'Windows', short: 'setup.exe' },
+    'android-arm64': { group: 'android', os: 'Android', short: 'arm64.apk' },
+    'android-arm': { group: 'android', os: 'Android', short: 'arm.apk' },
+    'android-x64': { group: 'android', os: 'Android', short: 'x64.apk' },
+  };
+
+  var vtKnown = {};
+  var vtReports = null;
+  var vtOpen = null;
+  var vtEventsReady = false;
+
+  function vtPlural(n, one, few, many) {
+    var n10 = n % 10;
+    var n100 = n % 100;
+    if (n10 === 1 && n100 !== 11) return one;
+    if (n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14)) return few;
+    return many;
+  }
+
+  function vtEl(tag, cls) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    return node;
+  }
+
+  function vtText(tag, cls, value) {
+    var node = vtEl(tag, cls);
+    node.textContent = value;
+    return node;
+  }
+
+  function vtShortSha(sha) {
+    return sha.slice(0, 4) + '...' + sha.slice(-4);
+  }
+
+  function vtWhen(iso, withTime) {
+    var date = new Date(iso);
+    if (!iso || isNaN(date.getTime())) return '';
+    var text = date.toLocaleString(
+      'ru-RU',
+      withTime
+        ? { timeZone: 'Europe/Moscow', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }
+        : { timeZone: 'Europe/Moscow', day: 'numeric', month: 'short' }
+    );
+    return withTime ? text + ' МСК' : text.replace(/\.$/, '');
+  }
+
+  function vtTotal(report) {
+    return (report.malicious || 0) + (report.suspicious || 0) + (report.undetected || 0) + (report.harmless || 0);
+  }
+
+  function vtResolve(key) {
+    var known = vtKnown[key] || {};
+    var sha = (known.sha || '').toLowerCase();
+    var found = sha && vtReports && vtReports[sha];
+    if (found && found.status === 'ready') return found;
+    return {
+      status: 'wait',
+      phase: found && found.status === 'scanning' ? 'scan' : 'missing',
+      sha: sha,
+    };
+  }
+
+  function vtView(report, known) {
+    if (report.status !== 'ready') {
+      var scanning = report.phase === 'scan';
+      return {
+        wait: true,
+        flag: false,
+        num: scanning ? 'идёт' : vtReports === null ? '...' : 'нет',
+        of: '',
+        title: vtReports === null ? 'Загрузка' : scanning ? 'Проверяется' : 'Отчёта пока нет',
+        sub: vtReports === null ? 'VirusTotal' : scanning ? 'движки ещё отвечают' : 'сборка ' + (known.version || ''),
+        label: scanning ? 'Проверка VirusTotal ещё идёт' : 'Отчёта VirusTotal для этой сборки ещё нет',
+      };
+    }
+    var total = vtTotal(report);
+    var clean = !report.malicious && !report.suspicious;
+    var num = report.malicious > 0 ? String(report.malicious) : String(report.suspicious || 0);
+    var title = 'Чисто';
+    var sub = vtWhen(report.scannedAt, false);
+    if (known.sha) sub = (sub ? sub + ' · ' : '') + vtShortSha(known.sha);
+    if (report.malicious > 0) {
+      title = 'Есть ' + vtPlural(report.malicious, 'срабатывание', 'срабатывания', 'срабатываний');
+      sub = report.suspicious > 0
+        ? 'ещё ' + report.suspicious + ' ' + vtPlural(report.suspicious, 'подозрительный', 'подозрительных', 'подозрительных')
+        : vtWhen(report.scannedAt, false);
+    } else if (report.suspicious > 0) {
+      title = 'Есть ' + vtPlural(report.suspicious, 'подозрение', 'подозрения', 'подозрений');
+      sub = 'в отчёте только подозрение';
+    }
+    return {
+      wait: false,
+      flag: !clean,
+      num: clean ? '0' : num,
+      of: total ? 'из ' + total : '',
+      title: title,
+      sub: sub,
+      total: total,
+      label: clean ? 'Чисто, 0 из ' + total : title + ', ' + num + ' из ' + total,
+    };
+  }
+
+  function vtNote(report, version) {
+    if (report.status !== 'ready') {
+      if (report.phase === 'scan') return 'Файл уже можно скачать. Цифры появятся на этом месте, когда движки закончат.';
+      return 'Для сборки ' + version + ' сохранённого отчёта ещё нет. Сюда попадёт проверка этого хеша, когда она будет готова.';
+    }
+    if (!report.malicious && !report.suspicious) {
+      return 'Это ответ VirusTotal по хешу файла. Подпись издателя остаётся отдельным вопросом, а каждая новая сборка считается заново.';
+    }
+    return 'Так часть антивирусов реагирует на установщик без подписи. В списке только движки, которые сработали.';
+  }
+
+  function vtHeroLine(report) {
+    if (report.status !== 'ready') {
+      return report.phase === 'scan' ? 'Движки ещё отвечают' : 'Для этой сборки отчёта ещё нет';
+    }
+    if (report.malicious > 0) {
+      return vtPlural(report.malicious, 'движок пометил файл как вредоносный', 'движка пометили файл как вредоносный', 'движков пометили файл как вредоносный');
+    }
+    if (report.suspicious > 0) {
+      return vtPlural(report.suspicious, 'движок отметил файл как подозрительный', 'движка отметили файл как подозрительный', 'движков отметили файл как подозрительный');
+    }
+    return 'Движки ничего не пометили';
+  }
+
+  function vtApply(key) {
+    var btn = document.querySelector('.vt[data-vt="' + key + '"], .alt__vt[data-vt="' + key + '"]');
+    var known = vtKnown[key];
+    if (!btn || !known || !known.sha) return;
+    var report = vtResolve(key);
+    var view = vtView(report, known);
+    btn.hidden = false;
+    btn.classList.toggle('is-flag', view.flag);
+    btn.classList.toggle('is-wait', view.wait);
+    var count = btn.querySelector('[data-vt-count]');
+    count.textContent = view.wait || !view.total ? view.num : view.num + '/' + view.total;
+    var title = btn.querySelector('[data-vt-title]');
+    var sub = btn.querySelector('[data-vt-sub]');
+    if (title) title.textContent = view.title;
+    if (sub) sub.textContent = view.sub;
+    btn.setAttribute('aria-label', VT_FILES[key].short + ', ' + view.label + '. Подробный отчёт');
+    if (vtOpen === key) vtRenderReport(key);
+  }
+
+  function vtRenderAll() {
+    Object.keys(VT_FILES).forEach(vtApply);
+  }
+
+  function vtRenderReport(key) {
+    var reportEl = $('#vtreport');
+    var file = VT_FILES[key];
+    var known = vtKnown[key] || {};
+    var report = vtResolve(key);
+    var view = vtView(report, known);
+    var version = known.version || '';
+    reportEl.classList.toggle('is-flag', view.flag);
+    reportEl.classList.toggle('is-wait', view.wait);
+    reportEl.replaceChildren();
+
+    var head = vtEl('div', 'vtreport__head');
+    var intro = vtEl('div');
+    intro.appendChild(vtText('div', 'label', 'Отчёт VirusTotal'));
+    intro.appendChild(vtText('p', 'vtreport__file', file.os + (version ? ' · v' + version : '') + ' · ' + file.short));
+    var hero = vtEl('div', 'vtreport__hero');
+    hero.appendChild(vtText('b', '', view.num));
+    var heroText = vtEl('div');
+    if (view.of) heroText.appendChild(vtText('div', 'vtreport__of', view.of));
+    heroText.appendChild(vtText('div', 'vtreport__line', vtHeroLine(report)));
+    hero.appendChild(heroText);
+    head.appendChild(intro);
+    head.appendChild(hero);
+    reportEl.appendChild(head);
+
+    var nav = vtEl('div', 'vtfiles');
+    nav.setAttribute('role', 'group');
+    nav.setAttribute('aria-label', 'Файл отчёта');
+    Object.keys(VT_FILES).forEach(function (name) {
+      var button = vtEl('button', 'vtfile');
+      button.type = 'button';
+      button.setAttribute('data-vt', name);
+      var diamond = vtEl('span', 'diamond');
+      diamond.setAttribute('aria-hidden', 'true');
+      button.appendChild(diamond);
+      button.appendChild(document.createTextNode(VT_FILES[name].short));
+      nav.appendChild(button);
+    });
+    reportEl.appendChild(nav);
+
+    if (report.status === 'ready') {
+      var stats = vtEl('dl', 'vtstats');
+      [
+        ['Вредоносные', report.malicious || 0, (report.malicious || 0) > 0],
+        ['Подозрительные', report.suspicious || 0, (report.suspicious || 0) > 0],
+        ['Без детекта', report.undetected || 0, false],
+        ['Без угрозы', report.harmless || 0, false],
+      ].forEach(function (row) {
+        var cell = vtEl('div');
+        cell.appendChild(vtText('dt', '', row[0]));
+        cell.appendChild(vtText('dd', row[2] ? 'is-hot' : '', String(row[1])));
+        stats.appendChild(cell);
+      });
+      reportEl.appendChild(stats);
+      var hits = report.hits || [];
+      if (hits.length) {
+        reportEl.appendChild(vtText('div', 'vtengines__title', 'Кто сработал'));
+        var list = vtEl('ul', 'vtengines');
+        hits.forEach(function (hit) {
+          var item = vtEl('li');
+          var kind = hit.category === 'suspicious' ? 'подозрительный' : 'вредоносный';
+          item.appendChild(vtText('span', '', hit.name || 'Движок'));
+          item.appendChild(vtText('span', '', kind + (hit.verdict ? ' · ' + hit.verdict : '')));
+          list.appendChild(item);
+        });
+        reportEl.appendChild(list);
+      }
+    }
+
+    var sha = known.sha || report.sha || '';
+    if (sha) {
+      var hash = vtEl('div', 'vthash');
+      var hashBody = vtEl('div');
+      hashBody.appendChild(vtText('div', 'label', 'SHA256'));
+      hashBody.appendChild(vtText('code', '', sha));
+      var when = report.scannedAt
+        ? vtWhen(report.scannedAt, true)
+        : report.phase === 'scan'
+          ? 'Снимок появится, когда проверка закончится'
+          : 'Этого хеша в снимках ещё нет';
+      var filename = known.filename || '';
+      hashBody.appendChild(vtText('div', 'vthash__when', filename ? when + ' · ' + filename : when));
+      var copy = vtEl('button', 'copy');
+      copy.type = 'button';
+      copy.textContent = 'Копировать';
+      copy.setAttribute('data-copy-hash', sha);
+      hash.appendChild(hashBody);
+      hash.appendChild(copy);
+      reportEl.appendChild(hash);
+    }
+
+    if (report.status === 'ready' && sha) {
+      var actions = vtEl('div', 'vtreport__actions');
+      var link = vtEl('a', 'btn btn--ghost btn--sm');
+      link.href = 'https://www.virustotal.com/gui/file/' + sha;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.appendChild(vtText('span', '', 'Открыть на VirusTotal'));
+      actions.appendChild(link);
+      reportEl.appendChild(actions);
+    }
+
+    reportEl.appendChild(vtText('p', 'vtnote', vtNote(report, version)));
+  }
+
+  function vtPlaceReport() {
+    var reportEl = $('#vtreport');
+    var grid = $('.os-grid');
+    if (!reportEl || !grid || !vtOpen) return;
+    if (window.matchMedia('(max-width: 720px)').matches) {
+      var card = $('[data-os="' + VT_FILES[vtOpen].group + '"]');
+      if (card) card.after(reportEl);
+    } else {
+      grid.after(reportEl);
+    }
+  }
+
+  function vtMarkOpen() {
+    $$('[data-vt]').forEach(function (btn) {
+      var on = !!vtOpen && btn.getAttribute('data-vt') === vtOpen;
+      btn.classList.toggle('is-open', on);
+      if (btn.classList.contains('vt') || btn.classList.contains('alt__vt')) {
+        btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      }
+    });
+  }
+
+  function vtOpenReport(key, fromUser) {
+    var reportEl = $('#vtreport');
+    if (!reportEl || !VT_FILES[key]) return;
+    vtOpen = key;
+    vtPlaceReport();
+    vtRenderReport(key);
+    reportEl.hidden = false;
+    vtMarkOpen();
+    if (fromUser && !REDUCED) reportEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function vtCloseReport() {
+    var reportEl = $('#vtreport');
+    vtOpen = null;
+    if (reportEl) reportEl.hidden = true;
+    vtMarkOpen();
+  }
+
+  function initVt() {
+    if (vtEventsReady || !$('#vtreport')) return;
+    vtEventsReady = true;
+    document.addEventListener('click', function (e) {
+      var copyBtn = e.target.closest('[data-copy-hash]');
+      if (copyBtn) {
+        var idle = 'Копировать';
+        copyText(copyBtn.getAttribute('data-copy-hash')).then(function () {
+          copyBtn.textContent = 'Скопировано';
+          copyBtn.classList.add('is-done');
+          window.setTimeout(function () {
+            copyBtn.textContent = idle;
+            copyBtn.classList.remove('is-done');
+          }, 1600);
+        });
+        return;
+      }
+      var button = e.target.closest('[data-vt]');
+      if (!button || !VT_FILES[button.getAttribute('data-vt')]) return;
+      var key = button.getAttribute('data-vt');
+      if (vtOpen === key && !button.classList.contains('vtfile')) {
+        vtCloseReport();
+        return;
+      }
+      vtOpenReport(key, true);
+    });
+    window.addEventListener('resize', function () {
+      if (vtOpen) vtPlaceReport();
+    });
+    var trustUrl = CONFIG.trustUrl || '/trust.json';
+    if (!window.fetch) {
+      vtReports = {};
+      vtRenderAll();
+      return;
+    }
+    fetch(trustUrl, { headers: { Accept: 'application/json' } })
+      .then(function (r) {
+        return r.ok ? r.json() : null;
+      })
+      .then(function (data) {
+        vtReports = (data && data.reports) || {};
+        vtRenderAll();
+      })
+      .catch(function () {
+        vtReports = {};
+        vtRenderAll();
+      });
+  }
+
   /* ---------- Downloads ---------- */
 
   function detectOs() {
@@ -455,6 +802,18 @@
     });
   }
 
+  function rememberDownload(key, url, version, sha) {
+    if (url && version) setDownload(key, url, version);
+    if (!vtKnown[key]) vtKnown[key] = {};
+    if (url) {
+      vtKnown[key].url = url;
+      vtKnown[key].filename = url.split('/').pop() || '';
+    }
+    if (version) vtKnown[key].version = version;
+    if (sha && /^[a-f0-9]{64}$/i.test(sha)) vtKnown[key].sha = sha.toLowerCase();
+    vtApply(key);
+  }
+
   function initDownloads() {
     if (!$('[data-dl]')) return;
     var os = detectOs();
@@ -474,15 +833,18 @@
 
     var fb = CONFIG.downloads || {};
     var api = CONFIG.latestApi;
+    var shaFb = fb.sha256 || {};
+    var androidSha = shaFb.android || {};
     var targets = [
-      ['windows', 'windows', 'amd64', fb.windows],
-      ['android-arm64', 'android', 'arm64', fb.android && fb.android.arm64],
-      ['android-arm', 'android', 'arm', fb.android && fb.android.arm],
-      ['android-x64', 'android', 'x64', fb.android && fb.android.x64],
+      ['windows', 'windows', 'amd64', fb.windows, shaFb.windows],
+      ['android-arm64', 'android', 'arm64', fb.android && fb.android.arm64, androidSha.arm64],
+      ['android-arm', 'android', 'arm', fb.android && fb.android.arm, androidSha.arm],
+      ['android-x64', 'android', 'x64', fb.android && fb.android.x64, androidSha.x64],
     ];
     targets.forEach(function (t) {
-      if (t[3]) setDownload(t[0], t[3], fb.version);
+      if (t[3]) rememberDownload(t[0], t[3], fb.version, t[4]);
     });
+    if ($('#vtreport')) initVt();
     if (!api || !window.fetch) return;
     targets.forEach(function (t) {
       var url = api + '?platform=' + t[1] + '&arch=' + t[2] + '&channel=' + encodeURIComponent(CONFIG.channel || 'stable');
@@ -491,7 +853,9 @@
           return r.ok ? r.json() : null;
         })
         .then(function (data) {
-          if (data && data.url && data.version && /^https:\/\//.test(data.url)) setDownload(t[0], data.url, data.version);
+          if (data && data.url && data.version && /^https:\/\//.test(data.url)) {
+            rememberDownload(t[0], data.url, data.version, data.sha256 || t[4]);
+          }
         })
         .catch(function () {});
     });
