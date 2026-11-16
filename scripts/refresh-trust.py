@@ -190,6 +190,16 @@ def wait_analysis(analysis_id: str) -> None:
     raise TimeoutError(f"Анализ {analysis_id} не завершился")
 
 
+def lookup(meta: dict) -> dict | None:
+    try:
+        payload = vt(f"/files/{meta['sha256']}")
+    except VtError as exc:
+        if exc.status == 404:
+            return None
+        raise
+    return report_from_file(payload, meta)
+
+
 def scan(meta: dict) -> dict:
     try:
         payload = vt(f"/files/{meta['sha256']}")
@@ -215,13 +225,19 @@ def main() -> int:
         meta = latest(platform, arch)
         current = reports.get(meta["sha256"])
         print(f"{platform}/{arch} {meta['version']} {meta['sha256'][:12]}")
-        if current and current.get("status") == "ready":
-            print("  снимок уже есть")
-            continue
         if not key:
-            print("  нового снимка нет, VIRUSTOTAL_API_KEY не задан")
+            if current and current.get("status") == "ready":
+                print("  снимок уже есть")
+            else:
+                print("  нового снимка нет, VIRUSTOTAL_API_KEY не задан")
             continue
-        fresh = scan(meta)
+        fresh = lookup(meta) if current and current.get("status") == "ready" else scan(meta)
+        if fresh is None:
+            print("  VirusTotal не вернул отчёт")
+            continue
+        if current == fresh:
+            print("  снимок совпадает с VirusTotal")
+            continue
         reports[meta["sha256"]] = fresh
         save_trust(trust)
         changed = True
