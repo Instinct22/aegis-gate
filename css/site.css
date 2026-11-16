@@ -918,70 +918,70 @@ button {
   background: linear-gradient(to bottom, rgba(32, 222, 231, 0.4), var(--line) 30%, var(--line) 80%, transparent);
 }
 
-.adv {
+.feature {
   display: grid;
   grid-template-columns: 1fr 96px 1fr;
   align-items: center;
   min-height: 240px;
 }
 
-.adv__text {
+.feature__text {
   max-width: 400px;
 }
 
-.adv__text h3 {
+.feature__text h3 {
   margin-top: 10px;
 }
 
-.adv__text p {
+.feature__text p {
   margin: 12px 0 0;
   font-size: 16px;
   line-height: 1.6;
   color: var(--muted);
 }
 
-.adv__node {
+.feature__node {
   display: flex;
   justify-content: center;
 }
 
-.adv__node span {
+.feature__node span {
   display: flex;
   padding: 6px;
   background: var(--page);
   color: var(--cyan);
 }
 
-.adv__node .diamond {
+.feature__node .diamond {
   width: 10px;
   height: 10px;
 }
 
-.adv:nth-child(odd) .adv__text {
+.feature:nth-child(odd) .feature__text {
   grid-column: 1;
   grid-row: 1;
   margin-left: auto;
   text-align: right;
 }
 
-.adv:nth-child(odd) .adv__demo {
+.feature:nth-child(odd) .feature__demo {
   grid-column: 3;
   grid-row: 1;
   justify-self: start;
 }
 
-.adv:nth-child(even) .adv__text {
+.feature:nth-child(even) .feature__text {
   grid-column: 3;
   grid-row: 1;
 }
 
-.adv:nth-child(even) .adv__demo {
+.feature:nth-child(even) .feature__demo {
   grid-column: 1;
   grid-row: 1;
   justify-self: end;
 }
 
-.adv__node {
+.feature__node {
   grid-column: 2;
   grid-row: 1;
 }
@@ -2167,7 +2167,7 @@ button {
     gap: 30px;
   }
 
-  .adv {
+  .feature {
     grid-template-columns: 1fr 64px 1fr;
   }
 
@@ -2207,9 +2207,9 @@ button {
     left: 11px;
   }
 
-  .adv,
-  .adv:nth-child(odd),
-  .adv:nth-child(even) {
+  .feature,
+  .feature:nth-child(odd),
+  .feature:nth-child(even) {
     grid-template-columns: 24px 1fr;
     gap: 18px 16px;
     min-height: 0;
@@ -2217,15 +2217,15 @@ button {
     align-items: start;
   }
 
-  .adv__node,
-  .adv:nth-child(odd) .adv__node {
+  .feature__node,
+  .feature:nth-child(odd) .feature__node {
     grid-column: 1;
     grid-row: 1;
     padding-top: 2px;
   }
 
-  .adv:nth-child(odd) .adv__text,
-  .adv:nth-child(even) .adv__text {
+  .feature:nth-child(odd) .feature__text,
+  .feature:nth-child(even) .feature__text {
     grid-column: 2;
     grid-row: 1;
     margin-left: 0;
@@ -2233,8 +2233,8 @@ button {
     max-width: none;
   }
 
-  .adv:nth-child(odd) .adv__demo,
-  .adv:nth-child(even) .adv__demo {
+  .feature:nth-child(odd) .feature__demo,
+  .feature:nth-child(even) .feature__demo {
     grid-column: 2;
     grid-row: 2;
     justify-self: stretch;

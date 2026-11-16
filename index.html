@@ -23,19 +23,19 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="preload" href="assets/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="css/site.css?v=3">
+    <link rel="stylesheet" href="css/site.css?v=4">
   </head>
   <body>
     <a class="sr-only" href="#main">К содержимому</a>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href="index.html" aria-label="Aegis Gate — на главную">
+        <a class="brand" href="/" aria-label="Aegis Gate — на главную">
           <img src="assets/brand/status-on.png" alt="" width="27" height="27">
           <img src="assets/brand/wordmark.webp" alt="Aegis Gate" width="72" height="15">
         </a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Меню"><span></span></button>
         <nav class="nav" id="nav" aria-label="Основное меню">
-          <a href="index.html" aria-current="page">Сервис</a>
+          <a href="/" aria-current="page">Сервис</a>
           <a href="connect.html">Как подключиться</a>
           <a href="faq.html">Вопросы</a>
           <a class="btn btn--ghost btn--sm" href="connect.html"><span>Принять участие</span></a>
@@ -88,28 +88,28 @@
             <p>Приложение — только кнопка. За ней серверы, подписка и человек, который отвечает.</p>
           </div>
           <div class="spine">
-          <article class="adv">
-            <div class="adv__text">
+          <article class="feature">
+            <div class="feature__text">
               <div class="label label--cyan">01</div>
               <h3 class="display d-md">Одна кнопка</h3>
               <p>Нажали на щит — подключились. Не нужно выбирать протоколы, порты и серверы.</p>
             </div>
-            <div class="adv__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
-            <div class="adv__demo" aria-hidden="true">
+            <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
+            <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-status panel" data-demo="status">
               <img src="assets/brand/status-off.png" data-src-off="assets/brand/status-off.png" data-src-connecting="assets/brand/status-connecting.png" data-src-on="assets/brand/status-on.png" alt="" width="56" height="56">
               <div><b style="color: var(--off)">Не защищено</b><small>Нажмите на щит, чтобы подключиться</small></div>
             </div>
             </div>
           </article>
-          <article class="adv">
-            <div class="adv__text">
+          <article class="feature">
+            <div class="feature__text">
               <div class="label label--cyan">02</div>
               <h3 class="display d-md">Сам находит обход</h3>
               <p>Если провайдер закрыл один путь, приложение переключится на другой. Без вашего участия.</p>
             </div>
-            <div class="adv__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
-            <div class="adv__demo" aria-hidden="true">
+            <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
+            <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-route panel" data-demo="route">
               <div class="route" data-state="ok" data-ms="38 мс"><span class="diamond"></span><span class="route__name">Маршрут 1</span><span class="route__state">работает · 38 мс</span></div>
               <div class="route" data-state="idle" data-ms="41 мс"><span class="diamond"></span><span class="route__name">Маршрут 2</span><span class="route__state">в запасе</span></div>
@@ -118,14 +118,14 @@
             </div>
             </div>
           </article>
-          <article class="adv">
-            <div class="adv__text">
+          <article class="feature">
+            <div class="feature__text">
               <div class="label label--cyan">03</div>
               <h3 class="display d-md">Подписка обновляется сама</h3>
               <p>Ссылку добавляете один раз. Новые серверы приезжают без вашего участия.</p>
             </div>
-            <div class="adv__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
-            <div class="adv__demo" aria-hidden="true">
+            <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
+            <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-sub panel" data-demo="sub" data-phase="0">
               <div class="label">Подписка</div>
               <div class="demo-sub__url">https://…/sub/••••••••</div>
@@ -134,14 +134,14 @@
             </div>
             </div>
           </article>
-          <article class="adv">
-            <div class="adv__text">
+          <article class="feature">
+            <div class="feature__text">
               <div class="label label--cyan">04</div>
               <h3 class="display d-md">Отвечает человек</h3>
               <p>Пишете в Telegram — отвечает тот, кто делает сервис. Не бот и не тикет-система.</p>
             </div>
-            <div class="adv__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
-            <div class="adv__demo" aria-hidden="true">
+            <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
+            <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-chat panel" data-demo="chat" data-phase="0">
               <div class="bubble bubble--me">Discord не держит звонок, рвётся через минуту</div>
               <div class="typing" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -166,7 +166,7 @@
 
     <footer class="site-footer">
       <div class="wrap">
-        <a class="brand" href="index.html" aria-label="Aegis Gate — на главную">
+        <a class="brand" href="/" aria-label="Aegis Gate — на главную">
           <img src="assets/brand/status-on.png" alt="" width="22" height="22">
           <img src="assets/brand/wordmark.webp" alt="Aegis Gate" width="58" height="12">
         </a>
