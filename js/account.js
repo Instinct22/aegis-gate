@@ -4,10 +4,23 @@
   if (!login || !app) return;
 
   var error = document.querySelector('[data-account-error]');
-  var names = { telegram: 'Telegram', google: 'Google', yandex: 'Яндекс' };
+  var linkError = document.querySelector('[data-link-error]');
 
   function showError(text) {
     if (error) error.textContent = text || '';
+    if (linkError) linkError.textContent = text || '';
+  }
+
+  function paintMethods(identities) {
+    var linked = {};
+    (identities || []).forEach(function (item) { linked[item.provider] = true; });
+    app.querySelectorAll('[data-method]').forEach(function (row) {
+      var on = !!linked[row.getAttribute('data-method')];
+      var state = row.querySelector('[data-method-state]');
+      var button = row.querySelector('[data-link]');
+      if (state) state.hidden = !on;
+      if (button) button.hidden = on;
+    });
   }
 
   function wantsLogin() {
@@ -27,20 +40,8 @@
     var url = app.querySelector('[data-sub-url]');
     if (code) code.textContent = data.cabinet_account_id || '';
     if (url) url.textContent = data.sub_url || '';
-    var list = app.querySelector('[data-identities]');
-    if (list) {
-      list.replaceChildren();
-      (data.identities || []).forEach(function (item) {
-        var row = document.createElement('div');
-        row.className = 'account-kv';
-        var title = document.createElement('b');
-        title.textContent = names[item.provider] || item.provider;
-        var value = document.createElement('span');
-        value.textContent = 'Подключён';
-        row.append(title, value);
-        list.append(row);
-      });
-    }
+    paintMethods(data.identities);
+    if (linkError) linkError.textContent = '';
     document.querySelectorAll('[data-account-link] span').forEach(function (label) {
       label.textContent = 'Личный кабинет';
     });
@@ -56,6 +57,7 @@
 
   document.querySelectorAll('[data-enter]').forEach(function (button) {
     button.addEventListener('click', function () {
+      showError('');
       var provider = button.getAttribute('data-enter');
       var nonce = String(Date.now()) + Math.random().toString(16).slice(2);
       var width = 480;

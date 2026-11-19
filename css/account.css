@@ -192,14 +192,34 @@
 .account-stage img { width: 72px; height: 72px; }
 .account-stage h1 { margin: 0; }
 
-.account-kv {
+.account-methods {
+  margin-top: 18px;
+  padding: 4px 22px;
+}
+
+.account-method {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  gap: 14px;
   align-items: center;
-  padding: 13px 0;
+  min-height: 64px;
+}
+
+.account-method + .account-method {
   border-top: 1px solid var(--line);
 }
+
+.account-method__name {
+  font-weight: 600;
+}
+
+.account-method__state {
+  color: var(--cyan);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.account-method .account-mark { color: var(--text); }
 
 .account-block { margin-top: 28px; }
 .account-view { display: none; }
