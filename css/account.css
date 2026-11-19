@@ -132,7 +132,25 @@
 .account-side button[aria-current='page'] .diamond { opacity: 1; }
 .account-side button:hover { color: var(--text); }
 
-.account-exit { margin-top: 16px; color: var(--dim) !important; }
+.account-side .account-exit {
+  display: inline-flex;
+  width: auto;
+  align-self: flex-start;
+  margin-top: 22px;
+  padding: 1px;
+  border: 0;
+  --edge: rgba(32, 222, 231, 0.75);
+  --fill: #0a272c;
+  --ink: #d8fbff;
+  background: var(--edge);
+  color: var(--ink);
+}
+
+.account-view > .label { margin-bottom: 20px; }
+
+.account-view > .account-wip { margin-top: 28px; }
+
+.account-stage .label { margin-bottom: 10px; }
 
 .account-sheet { padding: 22px 24px 24px; }
 
@@ -248,7 +266,10 @@
 
   .account-who,
   .account-id { width: 100%; }
-  .account-exit { margin-top: 0; }
+  .account-side .account-exit {
+    flex-basis: 100%;
+    margin-top: 12px;
+  }
 }
 
 @media (max-width: 720px) {
