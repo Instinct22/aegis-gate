@@ -1,7 +1,7 @@
 {
   "name": "Aegis Gate",
   "short_name": "Aegis Gate",
-  "description": "VPN-сервис. Приложение в комплекте, подписка — в Telegram.",
+  "description": "VPN-сервис. Приложение в комплекте, ссылка подписки — в личном кабинете.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#03090C",

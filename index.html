@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aegis Gate — VPN-сервис. Открытый тест</title>
-    <meta name="description" content="Aegis Gate — VPN-сервис: приложение для Windows и Android, подписка в Telegram. Идёт открытый тест — пользоваться бесплатно.">
+    <meta name="description" content="Aegis Gate — VPN-сервис: приложение для Windows и Android, ссылка подписки в личном кабинете. Идёт открытый тест — пользоваться бесплатно.">
     <meta name="theme-color" content="#03090C">
     <link rel="canonical" href="https://aegis-gate.ru/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
     <meta property="og:site_name" content="Aegis Gate">
     <meta property="og:title" content="Aegis Gate — VPN-сервис. Открытый тест">
-    <meta property="og:description" content="Aegis Gate — VPN-сервис: приложение для Windows и Android, подписка в Telegram. Идёт открытый тест — пользоваться бесплатно.">
+    <meta property="og:description" content="Aegis Gate — VPN-сервис: приложение для Windows и Android, ссылка подписки в личном кабинете. Идёт открытый тест — пользоваться бесплатно.">
     <meta property="og:url" content="https://aegis-gate.ru/">
     <meta property="og:image" content="https://aegis-gate.ru/assets/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="preload" href="assets/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="css/site.css?v=4">
+    <link rel="stylesheet" href="css/site.css?v=9">
   </head>
   <body>
     <a class="sr-only" href="#main">К содержимому</a>
@@ -38,7 +38,10 @@
           <a href="/" aria-current="page">Сервис</a>
           <a href="/connect">Как подключиться</a>
           <a href="/faq">Вопросы</a>
-          <a class="btn btn--ghost btn--sm" href="/connect"><span>Принять участие</span></a>
+          <div class="nav-actions">
+            <a class="btn btn--ghost btn--sm" href="/account" data-account-link><span>Войти</span></a>
+            <a class="btn btn--ghost btn--sm" href="/connect"><span>Принять участие</span></a>
+          </div>
         </nav>
       </div>
     </header>
@@ -64,7 +67,7 @@
           <span class="status__hint" data-text-off="Нажмите на щит" data-text-on="Нажмите ещё раз, чтобы выключить">Нажмите на щит</span>
         </div>
         <h1 class="display d-hero" id="hero-title">Всё снова открывается</h1>
-        <p class="hero__lead">Aegis Gate — VPN-сервис. Приложение уже в комплекте, подписку пришлём в Telegram. Сейчас идёт тест: ищем тех, кто попробует и расскажет, как работает.</p>
+        <p class="hero__lead">Aegis Gate — VPN-сервис. Приложение уже в комплекте, ссылка подписки лежит в личном кабинете. Сейчас идёт тест: ищем тех, кто попробует и расскажет, как работает.</p>
         <div class="hero__cta">
           <a class="btn" href="/connect"><span>Принять участие в тестировании <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
           <span class="hero__note">Бесплатно, пока идёт тест · подключение за пару минут</span>
@@ -138,14 +141,14 @@
             <div class="feature__text">
               <div class="label label--cyan">04</div>
               <h3 class="display d-md">Отвечает человек</h3>
-              <p>Пишете в Telegram — отвечает тот, кто делает сервис. Не бот и не тикет-система.</p>
+              <p>Если что-то не открылось, напишите на почту поддержки. Отвечает человек, который делает сервис.</p>
             </div>
             <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
             <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-chat panel" data-demo="chat" data-phase="0">
               <div class="bubble bubble--me">Discord не держит звонок, рвётся через минуту</div>
               <div class="typing" aria-hidden="true"><span></span><span></span><span></span></div>
-              <div class="bubble bubble--them"><small>@Instinct22</small>Поправил маршрут для звонков. Перезапустите щит и проверьте.</div>
+              <div class="bubble bubble--them"><small>Поддержка</small>Поправил маршрут для звонков. Перезапустите щит и проверьте.</div>
             </div>
             </div>
           </article>
@@ -176,10 +179,11 @@
           <a href="legal/payment.html">Оплата</a>
           <a href="/faq">Вопросы</a>
         </nav>
-        <a class="footer-tg" href="https://t.me/Instinct22" data-tg target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M20.7 4.3 3.4 10.9c-1.2.5-1.2 1.1-.2 1.4l4.4 1.4 1.7 5.2c.2.6.1.8.7.8.4 0 .6-.2.8-.4l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.2-1.5zM8.8 13.6l8.7-5.5c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.4-4.7z"/></svg> @Instinct22</a>
+        <a class="footer-mail" href="mailto:support@aegis-gate.ru">support@aegis-gate.ru</a>
       </div>
     </footer>
     <script src="config.js?v=1"></script>
+    <script src="js/account-nav.js?v=1" defer></script>
     <script src="js/site.js?v=2" defer></script>
   </body>
 </html>

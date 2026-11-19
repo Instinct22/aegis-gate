@@ -3,3 +3,6 @@
 design
 .gitignore
 .dockerignore
+cabinet/.env
+cabinet/data
+**/__pycache__

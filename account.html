@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Личный кабинет — Aegis Gate</title>
+    <meta name="description" content="Личный кабинет Aegis Gate: вход и ссылка подписки.">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#03090C">
+    <link rel="icon" href="assets/favicon.ico" sizes="48x48">
+    <link rel="stylesheet" href="css/site.css?v=9">
+    <link rel="stylesheet" href="css/account.css?v=2">
+  </head>
+  <body>
+    <a class="sr-only" href="#main">К содержимому</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="Aegis Gate — на главную">
+          <img src="assets/brand/status-on.png" alt="" width="27" height="27">
+          <img src="assets/brand/wordmark.webp" alt="Aegis Gate" width="72" height="15">
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Меню"><span></span></button>
+        <nav class="nav" id="nav" aria-label="Основное меню">
+          <a href="/">Сервис</a>
+          <a href="/connect">Как подключиться</a>
+          <a href="/faq">Вопросы</a>
+          <div class="nav-actions">
+            <a class="btn btn--ghost btn--sm" href="/account" data-account-link aria-current="page"><span>Войти</span></a>
+            <a class="btn btn--ghost btn--sm" href="/connect"><span>Принять участие</span></a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="account-login" data-account-login aria-labelledby="login-title">
+          <div class="account-radar" aria-hidden="true">
+            <svg viewBox="0 0 1800 1800" fill="none" stroke="#20DEE7">
+              <circle cx="900" cy="900" r="230" stroke-opacity="0.085"/>
+              <circle cx="900" cy="900" r="300" stroke-opacity="0.075" stroke-dasharray="2 7"/>
+              <circle cx="900" cy="900" r="390" stroke-opacity="0.065"/>
+              <circle cx="900" cy="900" r="520" stroke-opacity="0.055" stroke-dasharray="2 7"/>
+              <circle cx="900" cy="900" r="690" stroke-opacity="0.045"/>
+              <line x1="0" y1="900" x2="1800" y2="900" stroke-opacity="0.05"/>
+              <line x1="900" y1="0" x2="900" y2="1800" stroke-opacity="0.04"/>
+            </svg>
+          </div>
+          <div class="panel account-card">
+            <div class="label label--cyan">Личный кабинет</div>
+            <div class="account-title">
+              <img src="assets/brand/status-on.png" alt="" width="64" height="64">
+              <h1 class="display d-hero" id="login-title">Войти</h1>
+            </div>
+            <div class="account-auth">
+              <button class="btn btn--wide" type="button" data-enter="telegram">
+                <span>Войти через Telegram <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+              </button>
+              <div class="account-pair">
+                <button class="btn btn--ghost btn--wide" type="button" data-enter="yandex"><span>Яндекс ID</span></button>
+                <button class="btn btn--ghost btn--wide" type="button" data-enter="google"><span>Google</span></button>
+              </div>
+              <p class="account-error" data-account-error></p>
+            </div>
+          </div>
+        </section>
+
+        <div class="account-app" data-account-app data-screen="overview" hidden>
+          <nav class="account-side" aria-label="Разделы кабинета">
+            <p class="account-who"><span class="diamond" aria-hidden="true"></span> <span data-account-name>Личный кабинет</span></p>
+            <p class="account-id" data-account-code></p>
+            <button type="button" data-go="overview"><span class="diamond" aria-hidden="true"></span>Обзор</button>
+            <button type="button" data-go="plan"><span class="diamond" aria-hidden="true"></span>Подписка</button>
+            <button type="button" data-go="balance"><span class="diamond" aria-hidden="true"></span>Баланс</button>
+            <button type="button" data-go="referral"><span class="diamond" aria-hidden="true"></span>Рефералы</button>
+            <button type="button" data-go="profile"><span class="diamond" aria-hidden="true"></span>Профиль</button>
+            <button class="account-exit" type="button" data-go="login">Выйти</button>
+          </nav>
+          <div>
+            <section class="account-view view-overview" aria-labelledby="overview-title">
+              <div class="panel account-stage">
+                <img src="assets/brand/status-on.png" alt="" width="72" height="72">
+                <div>
+                  <div class="label label--cyan">Подписка</div>
+                  <h1 class="display d-lg" id="overview-title">Открытый тест</h1>
+                </div>
+              </div>
+              <div class="account-split">
+                <section class="panel account-sheet">
+                  <div class="label label--cyan">Ссылка подписки</div>
+                  <p class="account-mono" data-sub-url></p>
+                  <p class="account-note">Её добавляют в приложение один раз. Новые серверы приезжают сами.</p>
+                  <div class="account-actions">
+                    <button class="btn btn--sm" type="button" data-copy-sub><span>Скопировать</span></button>
+                  </div>
+                </section>
+                <section class="panel account-sheet">
+                  <div class="label">Баланс</div>
+                  <p class="account-wip">В разработке</p>
+                </section>
+              </div>
+            </section>
+            <section class="account-view view-plan">
+              <div class="label label--cyan">Подписка</div>
+              <h1 class="display d-lg">Тариф</h1>
+              <p class="account-wip">В разработке</p>
+            </section>
+            <section class="account-view view-balance">
+              <div class="label label--cyan">Баланс</div>
+              <h1 class="display d-lg">Баланс</h1>
+              <p class="account-wip">В разработке</p>
+            </section>
+            <section class="account-view view-referral">
+              <div class="label label--cyan">Рефералы</div>
+              <h1 class="display d-lg">Рефералы</h1>
+              <p class="account-wip">В разработке</p>
+            </section>
+            <section class="account-view view-profile">
+              <div class="label label--cyan">Профиль</div>
+              <h1 class="display d-lg" data-account-name>Личный кабинет</h1>
+              <div class="account-block">
+                <div class="label">Способы входа</div>
+                <div data-identities></div>
+              </div>
+              <div class="account-block">
+                <div class="label">Напоминания</div>
+                <p class="account-wip">В разработке</p>
+              </div>
+              <p class="account-note">Если что-то не открылось, напишите на <a href="mailto:support@aegis-gate.ru">support@aegis-gate.ru</a>.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label="Aegis Gate — на главную">
+          <img src="assets/brand/status-on.png" alt="" width="22" height="22">
+          <img src="assets/brand/wordmark.webp" alt="Aegis Gate" width="58" height="12">
+        </a>
+        <nav class="footer-links" aria-label="Документы">
+          <a href="legal/offer.html">Условия</a>
+          <a href="legal/privacy.html">Конфиденциальность</a>
+          <a href="legal/payment.html">Оплата</a>
+          <a href="/faq">Вопросы</a>
+        </nav>
+        <a class="footer-mail" href="mailto:support@aegis-gate.ru">support@aegis-gate.ru</a>
+      </div>
+    </footer>
+    <script src="js/site.js?v=2" defer></script>
+    <script src="js/account.js?v=5" defer></script>
+  </body>
+</html>

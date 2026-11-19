@@ -4,7 +4,6 @@
  */
 window.AEGIS_CONFIG = {
   siteUrl: 'https://aegis-gate.ru',
-  telegram: 'https://t.me/Instinct22',
   email: 'support@aegis-gate.ru',
 
   /**

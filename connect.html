@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Как подключиться — Aegis Gate</title>
-    <meta name="description" content="Четыре шага: скачайте приложение, напишите @Instinct22 за подпиской, добавьте ссылку и нажмите на щит.">
+    <meta name="description" content="Четыре шага: скачайте приложение, войдите в личный кабинет, добавьте ссылку и нажмите на щит.">
     <meta name="theme-color" content="#03090C">
     <link rel="canonical" href="https://aegis-gate.ru/connect">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="ru_RU">
     <meta property="og:site_name" content="Aegis Gate">
     <meta property="og:title" content="Как подключиться — Aegis Gate">
-    <meta property="og:description" content="Четыре шага: скачайте приложение, напишите @Instinct22 за подпиской, добавьте ссылку и нажмите на щит.">
+    <meta property="og:description" content="Четыре шага: скачайте приложение, войдите в личный кабинет, добавьте ссылку и нажмите на щит.">
     <meta property="og:url" content="https://aegis-gate.ru/connect">
     <meta property="og:image" content="https://aegis-gate.ru/assets/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="preload" href="assets/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="css/site.css?v=6">
+    <link rel="stylesheet" href="css/site.css?v=9">
   </head>
   <body>
     <a class="sr-only" href="#main">К содержимому</a>
@@ -38,7 +38,10 @@
           <a href="/">Сервис</a>
           <a href="/connect" aria-current="page">Как подключиться</a>
           <a href="/faq">Вопросы</a>
-          <a class="btn btn--ghost btn--sm" href="/connect"><span>Принять участие</span></a>
+          <div class="nav-actions">
+            <a class="btn btn--ghost btn--sm" href="/account" data-account-link><span>Войти</span></a>
+            <a class="btn btn--ghost btn--sm" href="/connect"><span>Принять участие</span></a>
+          </div>
         </nav>
       </div>
     </header>
@@ -52,7 +55,7 @@
 
           <ol class="progress" aria-label="Шаги">
             <li><button type="button" data-goto="1"><span class="progress__name"><span class="diamond"></span>Скачайте приложение</span></button></li>
-            <li><button type="button" data-goto="2"><span class="progress__name"><span class="diamond"></span>Напишите за подпиской</span></button></li>
+            <li><button type="button" data-goto="2"><span class="progress__name"><span class="diamond"></span>Войдите в личный кабинет</span></button></li>
             <li><button type="button" data-goto="3"><span class="progress__name"><span class="diamond"></span>Добавьте ссылку</span></button></li>
             <li><button type="button" data-goto="4"><span class="progress__name"><span class="diamond"></span>Нажмите на щит</span></button></li>
           </ol>
@@ -97,17 +100,10 @@
               </section>
 
               <section class="step" data-step="2" aria-labelledby="s2" hidden>
-                <h2 class="display d-sm" id="s2" tabindex="-1">Напишите за подпиской</h2>
+                <h2 class="display d-sm" id="s2" tabindex="-1">Войдите в личный кабинет</h2>
                 <div class="step__body">
-                  <p class="step__note">Пока идёт тест, ссылку подписки выдаём вручную. Можно отправить готовое сообщение:</p>
-                  <div class="msg panel">
-                    <span class="msg__text" id="tg-msg">Привет! Хочу подключиться к Aegis Gate.</span>
-                    <button class="copy" type="button" data-copy="#tg-msg">Копировать</button>
-                  </div>
-                  <div class="tg-row">
-                    <a class="btn" href="https://t.me/Instinct22?text=%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20Aegis%20Gate." data-tg="Привет! Хочу подключиться к Aegis Gate." target="_blank" rel="noopener"><span><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M20.7 4.3 3.4 10.9c-1.2.5-1.2 1.1-.2 1.4l4.4 1.4 1.7 5.2c.2.6.1.8.7.8.4 0 .6-.2.8-.4l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.2-1.5zM8.8 13.6l8.7-5.5c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.4-4.7z"/></svg> Открыть чат @Instinct22</span></a>
-                    <span>В ответ придёт ссылка подписки</span>
-                  </div>
+                  <p class="step__note">Писать за ссылкой не нужно. Войдите в личный кабинет — ссылка подписки уже будет на обзоре. Скопируйте её и переходите к следующему шагу.</p>
+                  <a class="btn step__cta" href="/account#login"><span>Открыть личный кабинет <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
                 </div>
               </section>
 
@@ -115,7 +111,7 @@
                 <h2 class="display d-sm" id="s3" tabindex="-1">Добавьте ссылку</h2>
                 <div class="step__body add-step">
                   <ol class="add-list">
-                    <li data-add-on="0"><span class="diamond"></span><span>Скопируйте ссылку из чата с @Instinct22.</span></li>
+                    <li data-add-on="0"><span class="diamond"></span><span>Скопируйте ссылку подписки в личном кабинете.</span></li>
                     <li data-add-on="1,2"><span class="diamond"></span><span>В приложении нажмите на карточку <b>«Подписка»</b> — откроется окно добавления.</span></li>
                     <li data-add-on="3,4,5,6"><span class="diamond"></span><span>Вставьте ссылку в поле и нажмите <b>«Добавить»</b>. Или сразу <b>«Вставить из буфера»</b>.</span></li>
                     <li data-add-on="7,8"><span class="diamond"></span><span>Статус сменится на <b class="lime">«Активна»</b> — серверы подтянулись.</span></li>
@@ -172,7 +168,7 @@
 
           <div class="wizard-nav">
             <button class="btn btn--ghost btn--sm" type="button" data-prev><span>Назад</span></button>
-            <span class="wizard-nav__help">Застряли? <a href="https://t.me/Instinct22" data-tg target="_blank" rel="noopener">Напишите @Instinct22</a></span>
+            <span class="wizard-nav__help"><a href="/account#login">Личный кабинет</a></span>
             <button class="btn btn--sm" type="button" data-next><span>Дальше <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></button>
             <a class="btn btn--sm" href="/" data-done hidden><span>Готово</span></a>
           </div>
@@ -192,10 +188,11 @@
           <a href="legal/payment.html">Оплата</a>
           <a href="/faq">Вопросы</a>
         </nav>
-        <a class="footer-tg" href="https://t.me/Instinct22" data-tg target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M20.7 4.3 3.4 10.9c-1.2.5-1.2 1.1-.2 1.4l4.4 1.4 1.7 5.2c.2.6.1.8.7.8.4 0 .6-.2.8-.4l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.2-1.5zM8.8 13.6l8.7-5.5c.4-.3.8-.1.5.2l-7.5 6.8-.3 3.2-1.4-4.7z"/></svg> @Instinct22</a>
+        <a class="footer-mail" href="mailto:support@aegis-gate.ru">support@aegis-gate.ru</a>
       </div>
     </footer>
     <script src="config.js?v=3"></script>
+    <script src="js/account-nav.js?v=1" defer></script>
     <script src="js/site.js?v=4" defer></script>
   </body>
 </html>

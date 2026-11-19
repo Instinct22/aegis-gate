@@ -1,3 +1,13 @@
-aegis-gate.ru, www.aegis-gate.ru {
-	reverse_proxy aegis-gate-landing:80
+www.aegis-gate.ru {
+	redir https://aegis-gate.ru{uri} permanent
+}
+
+aegis-gate.ru {
+	@cabinet path /auth/* /api/me /api/login /api/logout /api/link /api/health
+	handle @cabinet {
+		reverse_proxy aegis-gate-cabinet:8766
+	}
+	handle {
+		reverse_proxy aegis-gate-landing:80
+	}
 }

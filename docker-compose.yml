@@ -6,6 +6,24 @@ services:
     networks:
       - edge
 
+  cabinet:
+    image: ${CABINET_IMAGE:-liiiiiiiiis/aegis-gate-cabinet:latest}
+    container_name: aegis-gate-cabinet
+    restart: unless-stopped
+    env_file:
+      - cabinet.env
+    environment:
+      CABINET_HOST: 0.0.0.0
+      CABINET_PORT: "8766"
+      CABINET_DATA: /data
+      MASTER_BASE: https://master.aegis-gate.ru
+      CONVERTER_ENV: /converter.env
+    volumes:
+      - ./cabinet-data:/data
+      - /opt/converter/.env:/converter.env:ro
+    networks:
+      - edge
+
 networks:
   edge:
     external: true

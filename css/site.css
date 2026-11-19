@@ -310,7 +310,7 @@ button {
   position: sticky;
   top: 0;
   z-index: 50;
-  height: var(--header);
+  min-height: var(--header);
   border-bottom: 1px solid var(--line);
   background: rgba(3, 9, 12, 0.82);
   -webkit-backdrop-filter: blur(14px);
@@ -318,10 +318,11 @@ button {
 }
 
 .site-header .wrap {
-  height: 100%;
+  min-height: var(--header);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
 }
 
 .brand {
@@ -344,8 +345,15 @@ button {
 .nav {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 28px;
   font-size: 14px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 8px;
 }
 
 .nav a:not(.btn) {
@@ -438,14 +446,13 @@ button {
   height: 12px;
 }
 
-.footer-links {
-  display: flex;
-  gap: 22px;
-  flex-wrap: wrap;
+.footer-links,
+.legal-nav {
+  display: none;
 }
 
 .footer-links a,
-.footer-tg {
+.footer-mail {
   color: var(--muted);
   text-decoration: none;
   transition: color 200ms;
@@ -455,14 +462,14 @@ button {
   color: var(--text);
 }
 
-.footer-tg {
+.footer-mail {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: var(--text);
 }
 
-.footer-tg:hover {
+.footer-mail:hover {
   color: var(--cyan);
 }
 
@@ -1292,10 +1299,11 @@ button {
 
 .progress__name {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin-top: 10px;
   font-size: 13px;
+  line-height: 1.35;
   color: var(--dim);
   transition: color 300ms;
 }
@@ -1364,9 +1372,14 @@ button {
 
 .step__note {
   margin: 0;
+  max-width: 62ch;
   font-size: 15px;
   line-height: 1.6;
   color: var(--muted);
+}
+
+.step__cta {
+  margin-top: 32px;
 }
 
 .wizard-nav {
@@ -2054,7 +2067,7 @@ button {
 }
 
 .legal-nav {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 56px;
@@ -2307,6 +2320,17 @@ button {
 
   .nav .btn {
     margin-top: 16px;
+  }
+
+  .nav-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 16px 0 0;
+  }
+
+  .nav .nav-actions .btn {
+    margin-top: 0;
   }
 
   .nav .btn > span {
