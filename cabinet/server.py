@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import http.client
 import json
 import os
+import socket
 import sqlite3
 import threading
 import time
@@ -117,7 +119,7 @@ def master_opener() -> urllib.request.OpenerDirector:
         if not username or not password:
             raise RuntimeError('Нет логина мастера: задайте CONVERTER_ENV или MASTER_ADMIN_USERNAME')
         jar = CookieJar()
-        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+        opener = external_opener(urllib.request.HTTPCookieProcessor(jar))
         data = urllib.parse.urlencode({'username': username, 'password': password}).encode()
         request = urllib.request.Request(MASTER_BASE + '/login', data=data)
         try:
@@ -150,6 +152,8 @@ def master_json(method: str, path: str, body: dict | None = None) -> dict:
                 _master = None
             raise RuntimeError('Мастер отклонил сессию администратора') from exc
         raise RuntimeError(f'Мастер ответил {exc.code}: {detail[:300]}') from exc
+    except urllib.error.URLError as exc:
+        raise RuntimeError(f'Мастер недоступен ({MASTER_BASE})') from exc
 
 
 def ensure_master_client(conn: sqlite3.Connection, account_id: int) -> dict:
@@ -331,6 +335,62 @@ def pkce_pair() -> tuple[str, str]:
     return verifier, challenge
 
 
+def _addresses(host: str, port: int) -> list:
+    found = socket.getaddrinfo(host, port, socket.AF_UNSPEC, socket.SOCK_STREAM)
+    ipv4 = [item for item in found if item[0] == socket.AF_INET]
+    if not ipv4:
+        try:
+            ipv4 = socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM)
+        except socket.gaierror:
+            ipv4 = []
+    rest = [item for item in found if item[0] != socket.AF_INET]
+    return ipv4 + rest
+
+
+def _connect(host: str, port: int, timeout) -> socket.socket:
+    infos = _addresses(host, port)
+    last: OSError | None = None
+    for family, socktype, proto, _, sockaddr in infos:
+        sock = socket.socket(family, socktype, proto)
+        try:
+            if isinstance(timeout, (int, float)):
+                sock.settimeout(timeout)
+            sock.connect(sockaddr)
+            return sock
+        except OSError as exc:
+            last = exc
+            sock.close()
+    if last is not None:
+        raise last
+    raise OSError(f'нет адреса {host}')
+
+
+class _HTTPSConnection(http.client.HTTPSConnection):
+    def connect(self) -> None:
+        sock = _connect(self.host, self.port, self.timeout)
+        self.sock = self._context.wrap_socket(sock, server_hostname=self.host)
+
+
+class _HTTPSHandler(urllib.request.HTTPSHandler):
+    def https_open(self, req):
+        extra = {'context': self._context}
+        if hasattr(self, '_check_hostname'):
+            extra['check_hostname'] = self._check_hostname
+        return self.do_open(_HTTPSConnection, req, **extra)
+
+
+def external_opener(*handlers: urllib.request.BaseHandler) -> urllib.request.OpenerDirector:
+    return urllib.request.build_opener(_HTTPSHandler(), *handlers)
+
+
+def open_external(request: urllib.request.Request, timeout: int = 20):
+    try:
+        return external_opener().open(request, timeout=timeout)
+    except urllib.error.URLError as exc:
+        host = urllib.parse.urlparse(request.full_url).hostname or request.full_url
+        raise RuntimeError(f'Нет соединения с {host}') from exc
+
+
 def form_post(url: str, fields: dict[str, str]) -> dict:
     data = urllib.parse.urlencode(fields).encode()
     request = urllib.request.Request(
@@ -339,7 +399,7 @@ def form_post(url: str, fields: dict[str, str]) -> dict:
         headers={'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'},
     )
     try:
-        with urllib.request.urlopen(request, timeout=20) as response:
+        with open_external(request, 20) as response:
             return json.loads(response.read().decode())
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode(errors='replace')[:300]
@@ -348,7 +408,7 @@ def form_post(url: str, fields: dict[str, str]) -> dict:
 
 def json_get(url: str, headers: dict[str, str]) -> dict:
     request = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(request, timeout=20) as response:
+    with open_external(request, 20) as response:
         return json.loads(response.read().decode())
 
 
