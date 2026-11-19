@@ -161,8 +161,8 @@ def ensure_master_client(conn: sqlite3.Connection, account_id: int) -> dict:
         '/api/clients',
         {
             'name': row['display_name'] or f'Кабинет {account_id}',
-            'days': 0,
-            'limit_ip': 5,
+            'days': 30,
+            'limit_ip': 1,
             'note': 'кабинет',
             'cabinet_account_id': f'cab-{account_id}',
         },
