@@ -213,10 +213,16 @@
   font-weight: 600;
 }
 
-.account-method__state {
-  color: var(--cyan);
-  font-size: 14px;
-  font-weight: 600;
+.account-method .btn {
+  min-width: 138px;
+  justify-content: center;
+}
+
+.account-method__state.btn {
+  --edge: rgba(32, 222, 231, 0.75);
+  --fill: #0a272c;
+  --ink: #d8fbff;
+  pointer-events: none;
 }
 
 .account-method .account-mark { color: var(--text); }
