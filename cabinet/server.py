@@ -28,7 +28,7 @@ from secrets import token_urlsafe
 
 ROOT = Path(__file__).resolve().parent
 SITE = ROOT.parent
-PROVIDERS = {'telegram', 'google', 'yandex'}
+PROVIDERS = {'google', 'yandex'}
 
 _sessions: dict[str, int] = {}
 _sessions_lock = threading.Lock()
@@ -37,7 +37,7 @@ _master_lock = threading.Lock()
 _master: urllib.request.OpenerDirector | None = None
 _oauth: dict[str, dict] = {}
 _oauth_lock = threading.Lock()
-AUTH_PATHS = {'/auth/google', '/auth/yandex', '/auth/telegram'}
+AUTH_PATHS = {'/auth/google', '/auth/yandex'}
 
 
 def utcnow() -> str:
@@ -273,7 +273,7 @@ def parse_identity(body: dict, *, name_required: bool) -> tuple[str, str, str]:
     subject = str(body.get('subject') or '').strip()
     name = str(body.get('name') or '').strip()
     if provider not in PROVIDERS:
-        raise ValueError('Способ входа: telegram, google или yandex')
+        raise ValueError('Способ входа: google или yandex')
     if not subject or len(subject) > 200:
         raise ValueError('Нужен постоянный id человека у провайдера')
     if name_required and not name:
@@ -412,18 +412,12 @@ def json_get(url: str, headers: dict[str, str]) -> dict:
         return json.loads(response.read().decode())
 
 
-def jwt_payload(token: str) -> dict:
-    part = token.split('.')[1]
-    padded = part + '=' * (-len(part) % 4)
-    return json.loads(base64.urlsafe_b64decode(padded))
-
-
 def provider_keys(provider: str) -> tuple[str, str]:
     if provider == 'google':
         return cfg('GOOGLE_CLIENT_ID'), cfg('GOOGLE_CLIENT_SECRET')
     if provider == 'yandex':
         return cfg('YANDEX_CLIENT_ID'), cfg('YANDEX_CLIENT_SECRET')
-    return cfg('TELEGRAM_CLIENT_ID'), cfg('TELEGRAM_CLIENT_SECRET')
+    raise RuntimeError('Неизвестный способ входа')
 
 
 def begin_oauth(provider: str, redirect_uri: str, nonce: str) -> str:
@@ -460,8 +454,7 @@ def begin_oauth(provider: str, redirect_uri: str, nonce: str) -> str:
         query['scope'] = 'login:email'
         base = 'https://oauth.yandex.ru/authorize'
     else:
-        query['scope'] = 'openid'
-        base = 'https://oauth.telegram.org/auth'
+        raise RuntimeError('Неизвестный способ входа')
     return base + '?' + urllib.parse.urlencode(query)
 
 
@@ -506,19 +499,7 @@ def identity_from_provider(provider: str, code: str, verifier: str, redirect_uri
         subject = str(info.get('id') or info.get('default_email') or '')
         name = str(info.get('default_email') or info.get('login') or 'Яндекс')
     else:
-        token = form_post('https://oauth.telegram.org/token', {
-            'grant_type': 'authorization_code',
-            'code': code,
-            'client_id': client_id,
-            'client_secret': secret,
-            'redirect_uri': redirect_uri,
-            'code_verifier': verifier,
-        })
-        claims = jwt_payload(token['id_token'])
-        if claims.get('iss') != 'https://oauth.telegram.org' or str(claims.get('aud')) != client_id:
-            raise RuntimeError('Ответ Telegram не совпал с нашим приложением')
-        subject = str(claims.get('sub') or '')
-        name = str(claims.get('preferred_username') or claims.get('name') or 'Telegram')
+        raise RuntimeError('Неизвестный способ входа')
     if not subject:
         raise RuntimeError('Провайдер не прислал постоянный id')
     return subject, name[:80]

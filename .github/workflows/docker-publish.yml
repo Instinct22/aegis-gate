@@ -195,16 +195,13 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           YANDEX_CLIENT_ID: ${{ secrets.YANDEX_CLIENT_ID }}
           YANDEX_CLIENT_SECRET: ${{ secrets.YANDEX_CLIENT_SECRET }}
-          TELEGRAM_CLIENT_ID: ${{ secrets.TELEGRAM_CLIENT_ID }}
-          TELEGRAM_CLIENT_SECRET: ${{ secrets.TELEGRAM_CLIENT_SECRET }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         with:
           host: ${{ env.DEPLOY_HOST }}
           username: root
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           command_timeout: 10m
           script_stop: true
-          envs: LANDING_IMAGE,CABINET_IMAGE,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,YANDEX_CLIENT_ID,YANDEX_CLIENT_SECRET,TELEGRAM_CLIENT_ID,TELEGRAM_CLIENT_SECRET,TELEGRAM_BOT_TOKEN
+          envs: LANDING_IMAGE,CABINET_IMAGE,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN,GOOGLE_CLIENT_ID,GOOGLE_CLIENT_SECRET,YANDEX_CLIENT_ID,YANDEX_CLIENT_SECRET
           script: |
             set -eu
             cd ${{ env.DEPLOY_PATH }}
@@ -224,7 +221,7 @@ jobs:
               printf "%s='%s'\n" "$key" "$escaped"
             }
             missing=0
-            for key in GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET YANDEX_CLIENT_ID YANDEX_CLIENT_SECRET TELEGRAM_CLIENT_ID TELEGRAM_CLIENT_SECRET TELEGRAM_BOT_TOKEN; do
+            for key in GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET YANDEX_CLIENT_ID YANDEX_CLIENT_SECRET; do
               eval "val=\${$key:-}"
               if [ -z "$val" ]; then
                 echo "Нет GitHub Secret: $key" >&2
@@ -239,9 +236,6 @@ jobs:
               env_line GOOGLE_CLIENT_SECRET "$GOOGLE_CLIENT_SECRET"
               env_line YANDEX_CLIENT_ID "$YANDEX_CLIENT_ID"
               env_line YANDEX_CLIENT_SECRET "$YANDEX_CLIENT_SECRET"
-              env_line TELEGRAM_CLIENT_ID "$TELEGRAM_CLIENT_ID"
-              env_line TELEGRAM_CLIENT_SECRET "$TELEGRAM_CLIENT_SECRET"
-              env_line TELEGRAM_BOT_TOKEN "$TELEGRAM_BOT_TOKEN"
             } > cabinet.env
             mkdir -p cabinet-data
             if [ -n "${DOCKERHUB_USERNAME:-}" ] && [ -n "${DOCKERHUB_TOKEN:-}" ]; then

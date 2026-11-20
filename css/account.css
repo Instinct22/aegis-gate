@@ -49,8 +49,8 @@
 }
 
 .account-pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
@@ -273,7 +273,6 @@
 }
 
 @media (max-width: 720px) {
-  .account-pair { grid-template-columns: 1fr; }
   .account-login { min-height: 0; padding-top: 28px; }
   .account-radar { display: none; }
   .account-title h1 { font-size: 40px; }
