@@ -478,12 +478,7 @@ a[data-tg] {
   vertical-align: -0.22em;
 }
 
-a[data-tg]:not(.btn):not(.footer-support) a[data-tg] {
-  white-space: nowrap;
-}
-
-.telegram-icon {
-  display: inline-block;
+a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
   margin-inline-end: 0.35em;
 }
 
