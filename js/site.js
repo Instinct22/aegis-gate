@@ -542,12 +542,6 @@
         a.href = CONFIG.telegram + (text ? '?text=' + encodeURIComponent(text) : '');
       });
     }
-    if (CONFIG.email) {
-      $$('[data-support-email]').forEach(function (a) {
-        a.href = 'mailto:' + CONFIG.email;
-        a.textContent = CONFIG.email;
-      });
-    }
   }
 
   function init() {
