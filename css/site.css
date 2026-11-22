@@ -469,11 +469,21 @@ button {
   color: var(--text);
 }
 
+a[data-tg] {
+  white-space: nowrap;
+}
+
 .telegram-icon {
+  display: inline-block;
   vertical-align: -0.22em;
 }
 
-a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
+a[data-tg]:not(.btn):not(.footer-support) a[data-tg] {
+  white-space: nowrap;
+}
+
+.telegram-icon {
+  display: inline-block;
   margin-inline-end: 0.35em;
 }
 
