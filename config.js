@@ -4,7 +4,7 @@
  */
 window.AEGIS_CONFIG = {
   siteUrl: 'https://aegis-gate.ru',
-  telegram: 'https://t.me/AegisGateSupport',
+  telegram: 'https://t.me/Instinct22',
 
   /**
    * Актуальная версия приложения. nginx проксирует этот путь на
