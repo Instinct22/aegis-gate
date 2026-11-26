@@ -438,10 +438,9 @@
   function detectOs() {
     var ua = navigator.userAgent || '';
     if (/Android/i.test(ua)) return 'android';
-    if (/iPhone|iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && 'ontouchend' in document)) return 'ios';
     if (/Windows/i.test(ua)) return 'windows';
-    if (/Macintosh|Mac OS X/i.test(ua)) return 'mac';
-    return 'other';
+    if (/Linux/i.test(ua) && !/CrOS/i.test(ua)) return 'linux';
+    return null;
   }
 
   function setDownload(key, url, version) {
@@ -457,8 +456,7 @@
 
   function initDownloads() {
     if (!$('[data-dl]')) return;
-    var os = detectOs();
-    var mine = os === 'android' ? 'android' : os === 'windows' ? 'windows' : null;
+    var mine = detectOs();
     $$('[data-os]').forEach(function (tile) {
       var is = tile.getAttribute('data-os') === mine;
       tile.classList.toggle('is-mine', is);
@@ -469,7 +467,7 @@
     if (note) {
       note.textContent = mine
         ? 'Систему определили по браузеру. Приложение бесплатное — без подписки оно просто не подключится.'
-        : 'Сейчас приложение есть для Windows и Android. Для других систем версии пока нет.';
+        : 'Выберите приложение для Windows, Android или Linux.';
     }
 
     var fb = CONFIG.downloads || {};
@@ -479,6 +477,11 @@
       ['android-arm64', 'android', 'arm64', fb.android && fb.android.arm64],
       ['android-arm', 'android', 'arm', fb.android && fb.android.arm],
       ['android-x64', 'android', 'x64', fb.android && fb.android.x64],
+      ['linux-deb-amd64', 'linux-deb', 'amd64'],
+      ['linux-deb-arm64', 'linux-deb', 'arm64'],
+      ['linux-rpm-amd64', 'linux-rpm', 'amd64'],
+      ['linux-rpm-arm64', 'linux-rpm', 'arm64'],
+      ['linux-arch-amd64', 'linux-arch', 'amd64'],
     ];
     targets.forEach(function (t) {
       if (t[3]) setDownload(t[0], t[3], fb.version);
