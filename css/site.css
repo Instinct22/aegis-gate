@@ -1514,102 +1514,183 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
   container-type: inline-size;
 }
 
+.linux-header,
 .linux-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.linux-header {
+  gap: 15px;
+}
+
+.linux-heading {
   gap: 2px 8px;
+}
+
+.linux-architecture,
+.linux-architecture__options {
+  display: flex;
+  align-items: center;
+}
+
+.linux-architecture {
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.linux-architecture__options {
+  gap: 2px;
+  padding: 3px;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+}
+
+.linux-architecture label {
+  padding: 6px 10px;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+#linux-amd64:checked ~ .linux-header label[for='linux-amd64'],
+#linux-arm64:checked ~ .linux-header label[for='linux-arm64'] {
+  background: #174047;
+  color: #b7faff;
+}
+
+#linux-amd64:focus-visible ~ .linux-header label[for='linux-amd64'],
+#linux-arm64:focus-visible ~ .linux-header label[for='linux-arm64'] {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+}
+
+#linux-amd64:checked ~ .linux-packages [data-arch='arm64'],
+#linux-arm64:checked ~ .linux-packages [data-arch='amd64'] {
+  display: none;
 }
 
 .linux-packages {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 9px;
 }
 
 .linux-package {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 12px;
+  display: grid;
+  grid-template-areas: 'art' 'name' 'action';
+  grid-template-rows: auto 1fr auto;
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 1px solid #22363c;
 }
 
-.linux-package__format {
-  color: var(--muted);
-  font: 0.8125rem/1.4 Consolas, 'Cascadia Mono', monospace;
+.linux-package--deb {
+  --art: #492437;
+  --stripe: rgb(243 169 197 / 8%);
+}
+
+.linux-package--rpm {
+  --art: #1d3852;
+  --stripe: rgb(168 214 255 / 8%);
+}
+
+.linux-package--arch {
+  --art: #153d42;
+  --stripe: rgb(138 230 232 / 8%);
+}
+
+.linux-package__art {
+  grid-area: art;
+  min-height: 82px;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(124deg, transparent 0 21px, var(--stripe) 21px 22px, transparent 22px 36px), var(--art);
+}
+
+#linux-arm64:checked ~ .linux-packages .linux-package--arch .linux-package__art {
+  filter: grayscale(.85);
 }
 
 .linux-package h3 {
-  margin: 2px 0 0;
-  font-size: 1rem;
+  grid-area: name;
+  margin: 13px 13px 0;
+  font-size: 16px;
   font-weight: 600;
+  line-height: 1.25;
 }
 
 .linux-package__links {
+  grid-area: action;
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.linux-package__links a {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-height: 36px;
-  padding: 4px 6px;
-  border: 1px solid var(--line-strong);
-  background: var(--panel-2);
-  color: var(--cyan);
-  font-size: 0.875rem;
-  text-decoration: none;
+  justify-content: flex-end;
+  margin: 13px;
+  min-height: 39px;
 }
 
-.linux-package__links a::before {
-  content: '';
-  width: 14px;
-  height: 14px;
-  background: currentColor;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v8m-3-3 3 3 3-3M2 11v3h12v-3'/%3E%3C/svg%3E") center / contain no-repeat;
+.linux-package__links small {
+  font-size: 13px;
+  color: var(--muted);
 }
 
-.linux-package__links a:hover,
-.linux-package__links a:focus-visible {
-  color: var(--text);
-  border-color: var(--cyan);
-}
-
-@container (max-width: 36rem) {
+@container (max-width: 38rem) {
   .linux-packages {
     grid-template-columns: 1fr;
-  }
-
-  .linux-package {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
-@container (max-width: 21rem) {
-  .linux-package {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 8px;
   }
 
-  .linux-package > div:first-child {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 2px 8px;
+  .linux-package {
+    grid-template-areas: 'art name' 'art action';
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-rows: auto auto;
   }
 
-  .linux-package__format {
-    order: 1;
+  .linux-package__art {
+    min-height: 80px;
+  }
+
+  .linux-package__art img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .linux-package h3 {
+    margin: 10px 12px 0;
+  }
+
+  .linux-package__links {
+    margin: 5px 12px 11px;
+    justify-content: flex-start;
+  }
+}
+
+@container (max-width: 16rem) {
+  .linux-package {
+    grid-template-areas: 'art name' 'action action';
+    grid-template-columns: 54px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .linux-package__art {
+    min-height: 48px;
+  }
+
+  .linux-package__art img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .linux-package h3,
+  .linux-package__links {
+    margin: 8px 10px;
+  }
+
+  .linux-package__links {
+    justify-content: flex-end;
   }
 }
 
@@ -2610,10 +2691,6 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
 
   .os-grid {
     grid-template-columns: 1fr;
-  }
-
-  .linux-package__links a {
-    min-height: 44px;
   }
 
 

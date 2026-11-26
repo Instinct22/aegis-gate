@@ -460,8 +460,9 @@
     $$('[data-os]').forEach(function (tile) {
       var is = tile.getAttribute('data-os') === mine;
       tile.classList.toggle('is-mine', is);
-      var btn = $('.btn', tile);
-      if (btn) btn.classList.toggle('btn--ghost', !is && mine !== null);
+      $$('.btn', tile).forEach(function (btn) {
+        btn.classList.toggle('btn--ghost', !is && mine !== null);
+      });
     });
     var note = $('[data-os-note]');
     if (note) {
