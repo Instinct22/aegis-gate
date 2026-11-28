@@ -1,7 +1,7 @@
 FROM python:3.12-alpine
 
 WORKDIR /app
-COPY server.py /app/server.py
+COPY server.py billing.py tariffs.html /app/
 
 ENV CABINET_HOST=0.0.0.0
 ENV CABINET_PORT=8766

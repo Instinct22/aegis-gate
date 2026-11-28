@@ -26,6 +26,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from secrets import token_urlsafe
 
+if __package__:
+    from . import billing
+else:
+    import billing
+
 ROOT = Path(__file__).resolve().parent
 SITE = ROOT.parent
 PROVIDERS = {'google', 'yandex'}
@@ -649,6 +654,14 @@ if (window.opener) {{
 
     def do_GET(self) -> None:
         path = self.path.split('?', 1)[0]
+        if path == '/tariffs':
+            query = urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query)
+            try:
+                days = int(query['plan'][0]) if 'plan' in query else None
+                self.send_tariffs(billing.tariffs_page(days))
+            except ValueError:
+                self.send_tariffs(billing.tariffs_page(error='Выберите доступный срок подписки.'), 400)
+            return
         if path == '/api/health':
             self.send_json(200, {'ok': True})
             return
@@ -689,8 +702,51 @@ if (window.opener) {{
         self.end_headers()
         self.wfile.write(raw)
 
+    def send_tariffs(self, html: str, code: int = 200) -> None:
+        raw = html.encode('utf-8')
+        self.send_response(code)
+        self.send_header('Content-Type', 'text/html; charset=utf-8')
+        self.send_header('Content-Length', str(len(raw)))
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('Referrer-Policy', 'strict-origin-when-cross-origin')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Frame-Options', 'DENY')
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def preview_payment(self) -> None:
+        if self.headers.get_content_type() != 'application/x-www-form-urlencoded':
+            self.send_error(415)
+            return
+        try:
+            length = int(self.headers.get('Content-Length', '0'))
+        except ValueError:
+            self.send_error(400)
+            return
+        if not 0 < length <= 4096:
+            self.send_error(400)
+            return
+        days = None
+        try:
+            fields = urllib.parse.parse_qs(self.rfile.read(length).decode(), keep_blank_values=True)
+            if set(fields) != {'plan', 'email'} or any(len(v) != 1 for v in fields.values()):
+                raise ValueError('Проверьте выбранный тариф и адрес электронной почты.')
+            term = fields['plan'][0]
+            if term not in {str(d) for d in billing.PLANS}:
+                raise ValueError('Выберите доступный срок подписки.')
+            days = int(term)
+            # На модерации проверяем тот же запрос, который потребуется кассе.
+            # Транзакция, запись заказа и выдача платного доступа здесь не создаются.
+            billing.payment_request(days, fields['email'][0])
+            self.send_tariffs(billing.tariffs_page(days, submitted=True))
+        except ValueError as exc:
+            self.send_tariffs(billing.tariffs_page(days, error=str(exc)), 400)
+
     def do_POST(self) -> None:
         path = self.path.split('?', 1)[0]
+        if path == '/tariffs':
+            self.preview_payment()
+            return
         try:
             body = self.read_json()
             if path == '/api/logout':

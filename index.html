@@ -23,7 +23,7 @@
     <link rel="manifest" href="site.webmanifest">
     <link rel="preload" href="assets/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="css/site.css?v=12">
+    <link rel="stylesheet" href="css/site.css?v=13">
   </head>
   <body>
     <a class="sr-only" href="#main">К содержимому</a>
@@ -40,7 +40,7 @@
           <a href="/faq">Вопросы</a>
           <div class="nav-actions">
             <a class="btn btn--ghost btn--sm" href="/account" data-account-link><span>Войти</span></a>
-            <a class="btn btn--ghost btn--sm" href="/connect"><span>Принять участие</span></a>
+            <a class="btn btn--ghost btn--sm" href="/tariffs"><span>Тарифы</span></a>
           </div>
         </nav>
       </div>
@@ -66,19 +66,15 @@
           <span class="status__label label"><span class="diamond"></span><span data-status-label>Не защищено</span></span>
           <span class="status__hint" data-text-off="Нажмите на щит" data-text-on="Нажмите ещё раз, чтобы выключить">Нажмите на щит</span>
         </div>
-        <h1 class="display d-hero" id="hero-title">Всё снова открывается</h1>
-        <p class="hero__lead">Aegis Gate — VPN-сервис. Приложение уже в комплекте, ссылка подписки лежит в личном кабинете. Сейчас идёт тест: ищем тех, кто попробует и расскажет, как работает.</p>
+        <h1 class="display d-hero" id="hero-title">VPN для личных устройств</h1>
+        <p class="hero__lead">Подключайтесь к VPN на Windows, Android и Linux. Ссылка подписки уже в личном кабинете, а с настройкой поможет поддержка.</p>
         <div class="hero__cta">
-          <a class="btn" href="/connect"><span>Принять участие в тестировании <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
-          <span class="hero__note">Бесплатно, пока идёт тест · подключение за пару минут</span>
+          <a class="btn" href="/connect"><span>Попробовать бесплатно <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
+          <a class="hero__note" href="/tariffs">Цены и сроки платного доступа</a>
         </div>
         <div class="hero__services">
-          <ul class="services" aria-label="Что откроется">
-            <li class="service" style="--i:0;--brand:#FF2D3D"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6.4 5h11.2A4.4 4.4 0 0 1 22 9.4v5.2a4.4 4.4 0 0 1-4.4 4.4H6.4A4.4 4.4 0 0 1 2 14.6V9.4A4.4 4.4 0 0 1 6.4 5zM10 8.9v6.2l5.3-3.1z"/></svg><span>YouTube</span></li>
-            <li class="service" style="--i:1;--brand:#5865F2"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.3 5.9a16.6 16.6 0 0 0-4.1-1.3l-.5 1.1a15.3 15.3 0 0 0-5.4 0l-.5-1.1a16.6 16.6 0 0 0-4.1 1.3C2.1 9.8 1.4 13.6 1.7 17.4a16.7 16.7 0 0 0 5 2.5l1.1-1.7c-.6-.2-1.2-.5-1.7-.8l.4-.3a11.9 11.9 0 0 0 11 0l.4.3c-.5.3-1.1.6-1.7.8l1.1 1.7a16.7 16.7 0 0 0 5-2.5c.4-4.4-.7-8.2-3-11.5zM9 11a1.7 1.9 0 1 0 0 3.8A1.7 1.9 0 1 0 9 11zm6 0a1.7 1.9 0 1 0 0 3.8 1.7 1.9 0 1 0 0-3.8z"/></svg><span>Discord</span></li>
-            <li class="service" style="--i:2;--brand:#F0447A"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.25"/></svg><span>Instagram</span></li>
-            <li class="service" style="--i:3;--brand:#9B5CFF"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4.6 2 3 6v13.5h4.6V22h2.6l2.5-2.5h3.8L21.5 14V2zm14.6 11-2.9 2.9h-4.2l-2.5 2.5v-2.5H5.4V4.3h13.8zM14.9 7h2.2v5.4h-2.2zm-5.3 0h2.2v5.4H9.6z"/></svg><span>Twitch</span></li>
-            <li class="service" style="--i:4;--brand:#E6F1F1"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8.3" y="2.6" width="7.4" height="18.8" rx="3.7" transform="rotate(0 12 12)"/><rect x="8.3" y="2.6" width="7.4" height="18.8" rx="3.7" transform="rotate(60 12 12)"/><rect x="8.3" y="2.6" width="7.4" height="18.8" rx="3.7" transform="rotate(120 12 12)"/></g></svg><span>ChatGPT</span></li>
+          <ul class="platforms" aria-label="Поддерживаемые платформы">
+            <li>Windows</li><li>Android</li><li>Linux</li>
           </ul>
         </div>
       </section>
@@ -108,23 +104,23 @@
           <article class="feature">
             <div class="feature__text">
               <div class="label label--cyan">02</div>
-              <h3 class="display d-md">Сам находит обход</h3>
-              <p>Если провайдер закрыл один путь, приложение переключится на другой. Без вашего участия.</p>
+              <h3 class="display d-md">Проверяет связь с сервером</h3>
+              <p>Клиент проверяет отклик VPN-серверов и выбирает доступный сервер для подключения.</p>
             </div>
             <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
             <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-route panel" data-demo="route">
-              <div class="route" data-state="ok" data-ms="38 мс"><span class="diamond"></span><span class="route__name">Маршрут 1</span><span class="route__state">работает · 38 мс</span></div>
-              <div class="route" data-state="idle" data-ms="41 мс"><span class="diamond"></span><span class="route__name">Маршрут 2</span><span class="route__state">в запасе</span></div>
-              <div class="route" data-state="idle" data-ms="52 мс"><span class="diamond"></span><span class="route__name">Маршрут 3</span><span class="route__state">в запасе</span></div>
-              <div class="route-note">Переключились сами — вы ничего не заметили</div>
+              <div class="route" data-state="ok" data-ms="38 мс"><span class="diamond"></span><span class="route__name">Сервер 1</span><span class="route__state">работает · 38 мс</span></div>
+              <div class="route" data-state="idle" data-ms="41 мс"><span class="diamond"></span><span class="route__name">Сервер 2</span><span class="route__state">в запасе</span></div>
+              <div class="route" data-state="idle" data-ms="52 мс"><span class="diamond"></span><span class="route__name">Сервер 3</span><span class="route__state">в запасе</span></div>
+              <div class="route-note">Подключён сервер с откликом 41 мс</div>
             </div>
             </div>
           </article>
           <article class="feature">
             <div class="feature__text">
               <div class="label label--cyan">03</div>
-              <h3 class="display d-md">Подписка обновляется сама</h3>
+              <h3 class="display d-md">Список серверов обновляется</h3>
               <p>Ссылку добавляете один раз. Новые серверы приезжают без вашего участия.</p>
             </div>
             <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
@@ -141,14 +137,14 @@
             <div class="feature__text">
               <div class="label label--cyan">04</div>
               <h3 class="display d-md">Отвечает человек</h3>
-              <p>Если что-то не открылось, напишите в Telegram: <a data-tg href="https://t.me/Instinct22"><img class="telegram-icon" src="/assets/telegram.svg" width="18" height="18" alt="">@Instinct22</a>. Отвечает человек, который делает сервис.</p>
+              <p>С настройкой поможет <a data-tg href="https://t.me/Instinct22"><img class="telegram-icon" src="/assets/telegram.svg" width="18" height="18" alt="">@Instinct22</a>. Отвечает человек, который делает сервис.</p>
             </div>
             <div class="feature__node" aria-hidden="true"><span><span class="diamond diamond--hollow"></span></span></div>
             <div class="feature__demo" aria-hidden="true">
             <div class="demo demo-chat panel" data-demo="chat" data-phase="0">
-              <div class="bubble bubble--me">Discord не держит звонок, рвётся через минуту</div>
+              <div class="bubble bubble--me">Где найти ссылку подписки?</div>
               <div class="typing" aria-hidden="true"><span></span><span></span><span></span></div>
-              <div class="bubble bubble--them"><small>Поддержка</small>Поправил маршрут для звонков. Перезапустите щит и проверьте.</div>
+              <div class="bubble bubble--them"><small>Поддержка</small>Войдите в личный кабинет и нажмите «Скопировать» в разделе «Обзор».</div>
             </div>
             </div>
           </article>
@@ -160,7 +156,7 @@
         <section class="band panel" aria-labelledby="band-title">
           <div>
             <div class="label label--cyan">Открытый тест</div>
-            <p class="display d-md" id="band-title">Пользоваться — бесплатно. Взамен просим одно: если что-то не открылось, напишите.</p>
+            <p class="display d-md" id="band-title">Попробуйте VPN бесплатно, пока идёт открытый тест.</p>
           </div>
           <a class="btn" href="/connect"><span>Принять участие <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></a>
         </section>
@@ -174,16 +170,17 @@
           <img src="assets/brand/wordmark.webp" alt="Aegis Gate" width="58" height="12">
         </a>
         <nav class="footer-links" aria-label="Документы">
-          <a href="legal/offer.html">Условия</a>
-          <a href="legal/privacy.html">Конфиденциальность</a>
+          <a href="/legal/offer.html">Пользовательское соглашение</a>
+          <a href="/legal/privacy.html">Политика конфиденциальности</a>
           <a href="legal/payment.html">Оплата</a>
           <a href="/faq">Вопросы</a>
+          <span>Код проверки: OPLAT</span>
         </nav>
-        <a class="footer-support" data-tg href="https://t.me/Instinct22"><img class="telegram-icon" src="/assets/telegram.svg" width="18" height="18" alt="">@Instinct22</a>
+        <a class="footer-support" aria-label="Поддержка в Telegram, @Instinct22" data-tg href="https://t.me/Instinct22"><img class="telegram-icon" src="/assets/telegram.svg" width="18" height="18" alt="">@Instinct22</a>
       </div>
     </footer>
     <script src="config.js?v=4"></script>
     <script src="js/account-nav.js?v=1" defer></script>
-    <script src="js/site.js?v=5" defer></script>
+    <script src="js/site.js?v=6" defer></script>
   </body>
 </html>

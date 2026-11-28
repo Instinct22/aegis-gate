@@ -446,9 +446,10 @@ button {
   height: 12px;
 }
 
-.footer-links,
-.legal-nav {
-  display: none;
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
 }
 
 .footer-links a,
@@ -840,63 +841,16 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
   border-top: 1px solid var(--line);
 }
 
-/* ---------- Services band ---------- */
-
-.services {
+.platforms {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 44px;
+  gap: 16px 36px;
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.service {
-  --d: calc(600ms + var(--i, 0) * 120ms);
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
   font-weight: 600;
-  color: var(--dim);
-  transition: color 500ms;
-}
-
-.service svg {
-  width: 20px;
-  height: 20px;
-  color: var(--dim);
-  transition: color 500ms, filter 500ms;
-}
-
-.service::after {
-  content: '';
-  position: absolute;
-  left: -4px;
-  right: -4px;
-  top: 50%;
-  height: 1px;
-  background: var(--dim);
-  transform-origin: right;
-  transition: transform 450ms cubic-bezier(0.6, 0, 0.2, 1);
-}
-
-[data-status='on'] .service {
-  color: var(--text);
-  transition-delay: var(--d);
-}
-
-[data-status='on'] .service svg {
-  color: var(--brand);
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--brand) 40%, transparent));
-  transition-delay: var(--d);
-}
-
-[data-status='on'] .service::after {
-  transform: scaleX(0);
-  transition-delay: var(--d);
+  color: var(--muted);
 }
 
 /* ---------- Section heads ---------- */
@@ -2204,6 +2158,70 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
 
 /* ---------- Legal ---------- */
 
+.tariffs {
+  padding: clamp(36px, 6vw, 76px) 0;
+}
+
+.tariffs .wrap {
+  max-width: 1040px;
+}
+
+.tariffs p, .tariff-form small {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tariffs-lead {
+  max-width: 68ch;
+  margin: 20px 0 12px;
+  font-size: 18px;
+}
+
+.tariff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 214px), 1fr));
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.tariff-card, .tariff-order {
+  padding: clamp(20px, 3vw, 32px);
+}
+
+.tariff-card .tariff-price {
+  color: var(--cyan);
+  font: 500 28px var(--font-display);
+  margin: 16px 0 24px;
+}
+
+.tariff-order {
+  scroll-margin-top: 82px;
+}
+
+.tariff-order p, .tariff-terms {
+  margin: 16px 0;
+}
+
+.tariff-form {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.tariff-form input[type=email] {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--page);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  font: inherit;
+}
+
+.tariff-form .btn {
+  margin-top: 8px;
+}
+
 .legal {
   padding: 64px 0 96px;
 }
@@ -2213,6 +2231,8 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
 }
 
 .legal h1 {
+  overflow-wrap: anywhere;
+  hyphens: auto;
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 33px;
@@ -2265,7 +2285,7 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
 }
 
 .legal-nav {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 56px;
@@ -2375,9 +2395,6 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1080px) {
-  .services {
-    gap: 30px;
-  }
 
   .feature {
     grid-template-columns: 1fr 64px 1fr;
@@ -2410,10 +2427,6 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
     margin-top: 56px;
   }
 
-  .services {
-    flex-wrap: wrap;
-    gap: 18px 28px;
-  }
 
   .spine::before {
     left: 11px;
@@ -2606,29 +2619,6 @@ a[data-tg]:not(.btn):not(.footer-support) .telegram-icon {
     margin-top: 32px;
     padding: 20px 0 22px;
   }
-
-  .services {
-    gap: 22px;
-  }
-
-  .service span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-  }
-
-  .service::after {
-    left: -3px;
-    right: -3px;
-  }
-
-  .service svg {
-    width: 24px;
-    height: 24px;
-  }
-
   .why {
     padding-top: 72px;
   }

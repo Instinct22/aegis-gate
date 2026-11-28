@@ -11,7 +11,7 @@ aegis-gate.ru {
 		}
 		format json
 	}
-	@cabinet path /auth/* /api/me /api/login /api/logout /api/link /api/health
+	@cabinet path /tariffs /auth/* /api/me /api/login /api/logout /api/link /api/health
 	handle @cabinet {
 		reverse_proxy aegis-gate-cabinet:8766
 	}

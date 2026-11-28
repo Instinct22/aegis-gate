@@ -203,7 +203,7 @@
     if (route) {
       var rows = $$('.route', route);
       var note = $('.route-note', route);
-      var text = { closed: 'провайдер закрыл', check: 'проверяем…', idle: 'в запасе' };
+      var text = { closed: 'нет ответа', check: 'проверяем…', idle: 'в запасе' };
       var plan = [
         ['ok', 'idle', 'idle'],
         ['closed', 'check', 'idle'],
